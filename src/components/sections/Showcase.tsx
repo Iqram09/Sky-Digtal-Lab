@@ -4,127 +4,222 @@ import { useEffect, useRef } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useScrollTo } from "@/lib/useScrollTo";
+import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
+import { projects } from "@/content/projects";
+import { cn } from "@/lib/utils";
 
 gsap.registerPlugin(ScrollTrigger);
-
-const projects = [
-  {
-    id: "01",
-    title: "VANGUARD",
-    category: "CREATIVE DIRECTION",
-    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop",
-  },
-  {
-    id: "02",
-    title: "NEURA",
-    category: "DIGITAL EXPERIENCE",
-    image: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2070&auto=format&fit=crop",
-  },
-  {
-    id: "03",
-    title: "SYNTHESIS",
-    category: "3D & MOTION",
-    image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1964&auto=format&fit=crop",
-  },
-  {
-    id: "04",
-    title: "OBLIVION",
-    category: "WEBGL ARCHITECTURE",
-    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop",
-  }
-];
 
 export default function Showcase() {
   const containerRef = useRef<HTMLElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const scrollTo = useScrollTo();
+  const reduceMotion = usePrefersReducedMotion();
+
+  // The horizontal track only makes sense while the pin is driving it. With
+  // reduced motion the pin never runs, so the cards stay in a vertical stack
+  // at every width instead of being trapped off-screen.
+  const horizontal = !reduceMotion;
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const scrollEl = scrollRef.current;
-      if (!scrollEl) return;
+      const mm = gsap.matchMedia();
 
-      // Calculate how far to scroll
-      const getScrollAmount = () => {
-        const scrollWidth = scrollEl.scrollWidth;
-        return -(scrollWidth - window.innerWidth);
-      };
+      // Horizontal pinned scroll is a desktop affordance. On touch/narrow
+      // viewports the cards stack vertically instead, so nothing gets cramped.
+      mm.add(
+        {
+          isDesktop: "(min-width: 768px) and (prefers-reduced-motion: no-preference)",
+        },
+        () => {
+          const scrollEl = scrollRef.current;
+          if (!scrollEl) return;
 
-      const tween = gsap.to(scrollEl, {
-        x: getScrollAmount,
-        ease: "none"
-      });
+          const getScrollAmount = () => {
+            const scrollWidth = scrollEl.scrollWidth;
+            return -(scrollWidth - window.innerWidth);
+          };
 
-      ScrollTrigger.create({
-        trigger: containerRef.current,
-        start: "top top",
-        end: () => `+=${getScrollAmount() * -1}`,
-        pin: true,
-        animation: tween,
-        scrub: 1,
-        invalidateOnRefresh: true
-      });
+          const tween = gsap.to(scrollEl, {
+            x: getScrollAmount,
+            ease: "none",
+          });
 
-      // Parallax effect for images
-      gsap.utils.toArray<HTMLElement>('.showcase-image').forEach((img) => {
-        gsap.to(img, {
-          xPercent: 15,
-          ease: "none",
-          scrollTrigger: {
+          ScrollTrigger.create({
             trigger: containerRef.current,
             start: "top top",
             end: () => `+=${getScrollAmount() * -1}`,
+            pin: true,
+            animation: tween,
             scrub: 1,
             invalidateOnRefresh: true,
-          }
-        });
-      });
+          });
 
+          // Parallax effect for images
+          gsap.utils.toArray<HTMLElement>(".showcase-image").forEach((img) => {
+            gsap.to(img, {
+              xPercent: 12,
+              ease: "none",
+              scrollTrigger: {
+                trigger: containerRef.current,
+                start: "top top",
+                end: () => `+=${getScrollAmount() * -1}`,
+                scrub: 1,
+                invalidateOnRefresh: true,
+              },
+            });
+          });
+        }
+      );
     }, containerRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [reduceMotion]);
 
   return (
-    <section ref={containerRef} className="relative w-full h-[100dvh] overflow-hidden bg-background text-foreground">
-      {/* Title */}
-      <div className="absolute top-12 md:top-24 left-6 md:left-12 z-10 mix-blend-difference pointer-events-none">
-        <h2 className="text-2xl md:text-4xl font-bold tracking-tight">SELECTED ARCHIVES</h2>
+    <section
+      id="work"
+      ref={containerRef}
+      className={cn(
+        "relative w-full overflow-hidden bg-background py-24 text-foreground",
+        horizontal && "md:h-[100dvh] md:py-0"
+      )}
+    >
+      {/* Heading — inline on mobile, overlaid on the pinned desktop canvas */}
+      <div
+        className={cn(
+          "px-6 md:px-0",
+          horizontal
+            ? "md:pointer-events-none md:absolute md:left-12 md:top-20 md:z-10 md:max-w-[340px] md:mix-blend-difference"
+            : "md:px-12"
+        )}
+      >
+        <h2 className="text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">SELECTED WORK</h2>
+        <p className="mt-4 max-w-md text-base leading-relaxed text-white/55 md:mt-3 md:text-sm">
+          A selection of digital experiences, products and systems we&apos;ve
+          designed and built.
+        </p>
       </div>
 
-      <div className="absolute top-12 md:top-24 right-6 md:right-12 z-10 mix-blend-difference pointer-events-none text-right">
-        <span className="font-mono text-xs uppercase tracking-widest opacity-50 block">DRAG / SCROLL</span>
-        <span className="font-mono text-xs uppercase tracking-widest opacity-50 block">TO EXPLORE</span>
+      <div
+        className={cn(
+          "hidden text-right",
+          horizontal &&
+            "md:pointer-events-none md:absolute md:right-12 md:top-20 md:z-10 md:block md:mix-blend-difference"
+        )}
+      >
+        <span className="block font-mono text-xs uppercase tracking-widest opacity-50">
+          Scroll
+        </span>
+        <span className="block font-mono text-xs uppercase tracking-widest opacity-50">
+          To explore
+        </span>
       </div>
 
-      {/* Horizontal Scroll Container */}
-      <div ref={scrollRef} className="h-full flex items-center pl-6 md:pl-24 pr-[30vw] pt-24" data-cursor="drag">
+      {/* Horizontal on desktop, stacked on mobile */}
+      <div
+        ref={scrollRef}
+        className={cn(
+          "mt-10 flex flex-col gap-14 px-6",
+          horizontal
+            ? "md:mt-0 md:h-full md:flex-row md:items-center md:gap-0 md:px-0 md:pl-24 md:pr-[25vw] md:pt-56"
+            : "md:px-12"
+        )}
+        data-cursor="drag"
+      >
         {projects.map((project, index) => (
-          <div 
-            key={project.id} 
-            className="flex-shrink-0 w-[85vw] md:w-[60vw] h-[60vh] md:h-[70vh] mr-12 md:mr-24 relative group"
+          <article
+            key={project.id}
+            className={cn(
+              "group flex flex-col border border-white/10 bg-[#0b0d0d] md:flex-row",
+              horizontal && "md:mr-16 md:h-[60vh] md:w-[70vw] md:shrink-0 lg:w-[60vw]"
+            )}
             data-cursor="project"
           >
-            {/* Image Container with hidden overflow for parallax */}
-            <div className="w-full h-full relative overflow-hidden bg-[#111]">
-              <Image 
+            {/* Image */}
+            <div
+              className={cn(
+                "relative aspect-[4/3] w-full overflow-hidden bg-[#111] md:w-[54%]",
+                horizontal ? "md:aspect-auto md:h-full" : "md:aspect-[4/3]"
+              )}
+            >
+              <Image
                 src={project.image}
-                alt={project.title}
+                alt={`${project.title} — ${project.category} concept piece by Sky Digital Lab`}
                 fill
-                className="showcase-image object-cover object-center scale-[1.2] opacity-80 group-hover:opacity-100 transition-opacity duration-700"
-                sizes="(max-width: 768px) 85vw, 60vw"
+                className="showcase-image scale-[1.15] object-cover object-center opacity-80 transition-opacity duration-700 group-hover:opacity-100"
+                sizes="(max-width: 768px) 90vw, 40vw"
                 priority={index === 0}
               />
+              <span className="absolute left-4 top-4 border border-white/25 bg-black/50 px-2.5 py-1.5 font-mono text-[9px] uppercase tracking-[0.18em] text-white/80 backdrop-blur-sm">
+                {project.kind === "concept" ? "Studio concept" : "Client work"}
+              </span>
             </div>
-            
-            {/* Meta Data */}
-            <div className="absolute -bottom-16 left-0 w-full flex justify-between items-end">
-              <div className="flex flex-col">
-                <span className="font-mono text-xs text-white/50 mb-1">{project.id}</span>
-                <h3 className="text-2xl md:text-4xl font-semibold tracking-tighter">{project.title}</h3>
+
+            {/* Info panel */}
+            <div className="flex flex-1 flex-col justify-between gap-5 border-t border-white/10 p-5 md:w-[46%] md:border-l md:border-t-0 md:p-6">
+              <div>
+                <div className="flex items-baseline justify-between gap-4">
+                  <span className="font-mono text-xs text-accent">{project.id}</span>
+                  <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-white/45">
+                    {project.category}
+                  </span>
+                </div>
+                <h3 className="mt-3 text-2xl font-semibold tracking-tight text-balance md:text-2xl lg:text-3xl">
+                  {project.title}
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-white/55">
+                  {project.description}
+                </p>
               </div>
-              <span className="font-mono text-xs text-white/50">{project.category}</span>
+
+              <div className="flex flex-col gap-4">
+                <div>
+                  <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.2em] text-white/30">
+                    Services
+                  </p>
+                  <ul className="flex flex-wrap gap-1">
+                    {project.services.map((service) => (
+                      <li
+                        key={service}
+                        className="border border-white/15 px-2.5 py-1.5 font-mono text-[9px] uppercase tracking-widest text-white/55"
+                      >
+                        {service}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div>
+                  <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.2em] text-white/30">
+                    Built with
+                  </p>
+                  <p className="font-mono text-[10px] uppercase tracking-widest text-white/45">
+                    {project.technologies.join(" / ")}
+                  </p>
+                </div>
+
+                <a
+                  href="#contact"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    scrollTo("#contact");
+                  }}
+                  data-cursor="link"
+                  className="inline-flex items-center gap-2 self-start border-b border-accent/40 pb-1 font-mono text-[10px] uppercase tracking-[0.2em] text-accent transition-colors hover:border-accent"
+                >
+                  Build something like this
+                  <span
+                    aria-hidden
+                    className="transition-transform duration-300 group-hover:translate-x-1 motion-reduce:transition-none"
+                  >
+                    →
+                  </span>
+                </a>
+              </div>
             </div>
-          </div>
+          </article>
         ))}
       </div>
     </section>

@@ -3,15 +3,22 @@
 @theme {
   --font-sans: var(--font-inter);
   --font-mono: var(--font-jetbrains);
-  
+
+  /* Core palette — dark base, warm off-white inverse, electric lime accent */
   --color-background: #050505;
   --color-foreground: #F5F5F0;
-  --color-accent: #3b82f6;
+  --color-accent: #c9ff4a;
+
+  /* Surface steps used to give the page its dark/light rhythm */
+  --color-ink: #070909;
+  --color-panel: #101312;
+  --color-panel-alt: #0a0c0c;
 }
 
 :root {
   --background: #050505;
   --foreground: #F5F5F0;
+  --accent: #c9ff4a;
 }
 
 /* Base resets for luxury feel */
@@ -21,6 +28,12 @@ html, body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overscroll-behavior: none;
+}
+
+/* Guard against accidental horizontal scroll from oversized display type */
+html, body {
+  max-width: 100%;
+  overflow-x: clip;
 }
 
 /* Custom text selection */
@@ -36,6 +49,36 @@ html, body {
 }
 * {
   scrollbar-width: none; 
+}
+
+/* Keyboard focus — visible on both the dark and the inverted sections */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+.on-light :focus-visible {
+  outline-color: #050505;
+}
+
+/* Skip link for keyboard + screen reader users */
+.skip-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  transform: translateY(-120%);
+  background: var(--accent);
+  color: #050505;
+  padding: 0.75rem 1.25rem;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transition: transform 0.2s ease;
+}
+.skip-link:focus {
+  transform: translateY(0);
 }
 
 /* Lenis recommended styles */
@@ -64,4 +107,31 @@ html.lenis, html.lenis body {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: 1.5rem;
+}
+
+/* Shared editorial rules so every section keeps the same rhythm */
+.section-shell {
+  width: 100%;
+  padding-inline: 1.5rem;
+}
+@media (min-width: 768px) {
+  .section-shell {
+    padding-inline: 3rem;
+  }
+}
+
+/* Hairline rules reused across sections */
+.rule-dark { border-color: rgba(255, 255, 255, 0.15); }
+.rule-light { border-color: rgba(5, 5, 5, 0.15); }
+
+/* Respect reduced-motion: stop looping/scroll-linked motion, keep layout intact */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }
