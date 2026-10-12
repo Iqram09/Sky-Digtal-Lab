@@ -1,14 +1,18 @@
 "use client";
 
 import type { MouseEvent, ReactNode } from "react";
+import Link from "next/link";
 import { useScrollTo } from "@/lib/useScrollTo";
 import { cn } from "@/lib/utils";
 
-type Variant = "primary" | "ghost" | "ghostLight";
+type Variant = "primary" | "ghost" | "ghostLight" | "solidDark";
 
 type ActionButtonProps = {
   children: ReactNode;
-  /** `#anchor` scrolls in-page through Lenis; anything else is a normal link. */
+  /**
+   * `#anchor` scrolls in-page through Lenis, `/route` navigates client-side,
+   * and `http(s)://` / `mailto:` open as ordinary links (external ones in a new tab).
+   */
   href: string;
   variant?: Variant;
   className?: string;
@@ -20,21 +24,31 @@ const base =
 
 const variants: Record<Variant, { shell: string; sweep: string; text: string }> = {
   primary: {
-    shell: "border-accent bg-accent text-[#050505]",
-    sweep: "bg-white",
-    text: "group-hover:text-[#050505]",
+    shell: "border-accent bg-accent text-on-taupe",
+    sweep: "bg-foreground",
+    text: "group-hover:text-on-taupe",
   },
   ghost: {
-    shell: "border-white/25 text-white hover:border-accent",
+    shell: "border-foreground/25 text-foreground hover:border-accent",
     sweep: "bg-accent",
-    text: "group-hover:text-[#050505]",
+    text: "group-hover:text-on-taupe",
   },
   ghostLight: {
-    shell: "border-black/25 text-[#050505] hover:border-[#050505]",
-    sweep: "bg-[#050505]",
-    text: "group-hover:text-[#F5F5F0]",
+    shell: "border-on-taupe/30 text-on-taupe hover:border-on-taupe",
+    sweep: "bg-on-taupe",
+    text: "group-hover:text-foreground",
+  },
+  /** Primary action on taupe sections. */
+  solidDark: {
+    shell: "border-on-taupe bg-on-taupe text-foreground",
+    sweep: "bg-foreground",
+    text: "group-hover:text-on-taupe",
   },
 };
+
+export function isExternal(href: string) {
+  return /^https?:\/\//.test(href);
+}
 
 export default function ActionButton({
   children,
@@ -44,22 +58,11 @@ export default function ActionButton({
   arrow = true,
 }: ActionButtonProps) {
   const scrollTo = useScrollTo();
-  const isAnchor = href.startsWith("#");
   const style = variants[variant];
+  const external = isExternal(href);
 
-  const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
-    if (!isAnchor) return;
-    event.preventDefault();
-    scrollTo(href);
-  };
-
-  return (
-    <a
-      href={href}
-      onClick={handleClick}
-      data-cursor="link"
-      className={cn(base, style.shell, className)}
-    >
+  const content = (
+    <>
       {/* Hover sweep — purely decorative, sits behind the label. */}
       <span
         aria-hidden
@@ -70,6 +73,7 @@ export default function ActionButton({
       />
       <span className={cn("relative z-10 transition-colors duration-300", style.text)}>
         {children}
+        {external ? <span className="sr-only"> (opens in a new tab)</span> : null}
       </span>
       {arrow ? (
         <span
@@ -79,9 +83,46 @@ export default function ActionButton({
             style.text
           )}
         >
-          →
+          {external ? "↗" : "→"}
         </span>
       ) : null}
-    </a>
+    </>
+  );
+
+  const classes = cn(base, style.shell, className);
+
+  if (href.startsWith("#")) {
+    return (
+      <a
+        href={href}
+        onClick={(event: MouseEvent<HTMLAnchorElement>) => {
+          event.preventDefault();
+          scrollTo(href);
+        }}
+        data-cursor="link"
+        className={classes}
+      >
+        {content}
+      </a>
+    );
+  }
+
+  if (external || href.startsWith("mailto:") || href.startsWith("tel:")) {
+    return (
+      <a
+        href={href}
+        {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+        data-cursor="link"
+        className={classes}
+      >
+        {content}
+      </a>
+    );
+  }
+
+  return (
+    <Link href={href} data-cursor="link" className={classes}>
+      {content}
+    </Link>
   );
 }

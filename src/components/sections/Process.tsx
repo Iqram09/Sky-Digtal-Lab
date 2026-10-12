@@ -11,7 +11,11 @@ import { processSteps } from "@/content/process";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function Process() {
+type ProcessProps = {
+  index?: string;
+};
+
+export default function Process({ index = "07" }: ProcessProps) {
   const containerRef = useRef<HTMLElement>(null);
   const lineRef = useRef<HTMLSpanElement>(null);
   const reduceMotion = useReducedMotion();
@@ -23,8 +27,7 @@ export default function Process() {
       const line = lineRef.current;
       if (!line) return;
 
-      // The spine draws itself as the steps scroll past — same scrub language
-      // as the manifesto reveal.
+      // The spine draws itself as the steps scroll past.
       gsap.fromTo(
         line,
         { scaleY: 0 },
@@ -49,29 +52,23 @@ export default function Process() {
     <section
       id="process"
       ref={containerRef}
-      className="relative w-full overflow-hidden bg-ink py-24 md:py-32"
+      className="relative w-full overflow-hidden bg-background py-24 md:py-36"
     >
       <div className="premium-grid w-full px-6 md:px-12">
-        <SectionRail
-          index="06"
-          label="Process"
-          sublabel="How we work"
-          footnote="06 Stages"
-        />
+        <SectionRail index={index} label="Process" sublabel="How we work" footnote="Six stages" />
 
-        <div className="col-span-12 mt-16 md:col-span-8 md:col-start-5 md:mt-0">
+        <div className="col-span-12 mt-12 md:col-span-9 md:col-start-4 md:mt-0 lg:col-span-8 lg:col-start-5">
           <SectionTitle
             size="display"
-            description="A structured process keeps ideas moving from the first conversation to a product that works in the real world."
+            description="A clear sequence keeps every project honest: we agree what we're building before we build it, and we test it before we hand it over."
           >
-            HOW WE WORK
+            Our process
           </SectionTitle>
 
           <ol className="relative pl-10 md:pl-16">
-            {/* Spine */}
             <span
               aria-hidden
-              className="absolute left-[3px] top-2 h-[calc(100%-1rem)] w-px bg-white/12 md:left-[7px]"
+              className="absolute left-[3px] top-2 h-[calc(100%-1rem)] w-px bg-foreground/12 md:left-[7px]"
             />
             <span
               ref={lineRef}
@@ -79,26 +76,24 @@ export default function Process() {
               className="absolute left-[3px] top-2 h-[calc(100%-1rem)] w-px origin-top bg-accent md:left-[7px]"
             />
 
-            {processSteps.map((step, index) => (
+            {processSteps.map((step, stepIndex) => (
               <Reveal
                 as="li"
                 key={step.number}
-                delay={index * 0.06}
+                delay={stepIndex * 0.05}
                 className="group relative pb-10 last:pb-0 md:pb-14"
               >
                 <span
                   aria-hidden
-                  className="absolute -left-10 top-1.5 h-[7px] w-[7px] rounded-full bg-white/25 transition-colors duration-300 group-hover:bg-accent md:-left-16 md:h-[15px] md:w-[15px] md:border-[5px] md:border-ink md:bg-white/30"
+                  className="absolute -left-10 top-2 h-[7px] w-[7px] rounded-full bg-foreground/30 transition-colors duration-300 group-hover:bg-accent md:-left-16 md:h-[15px] md:w-[15px] md:border-[5px] md:border-background"
                 />
                 <div className="flex flex-col gap-3 md:flex-row md:items-baseline md:gap-8">
-                  <span className="font-mono text-xs text-accent md:w-20 md:shrink-0">
-                    {step.number}
-                  </span>
+                  <span className="font-mono text-xs text-accent md:w-16 md:shrink-0">{step.number}</span>
                   <div>
-                    <h3 className="text-2xl font-medium tracking-tight text-white md:text-4xl">
+                    <h3 className="font-display text-2xl font-semibold tracking-tight text-foreground md:text-4xl">
                       {step.title}
                     </h3>
-                    <p className="mt-3 max-w-xl text-base leading-relaxed text-white/55 md:text-lg">
+                    <p className="mt-3 max-w-xl text-base leading-relaxed text-muted md:text-lg">
                       {step.description}
                     </p>
                   </div>

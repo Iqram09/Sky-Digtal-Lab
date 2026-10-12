@@ -1,7 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
-import type { ReactNode } from "react";
+import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
 
 type RevealProps = {
   children: ReactNode;
@@ -14,32 +13,48 @@ type RevealProps = {
 
 /**
  * The site's standard entrance: a short rise + fade once the element is in view.
- * Matches the easing curve already used across the hero so nothing feels grafted on.
+ *
+ * Server and client render identical markup — the hidden starting state lives in
+ * CSS (`[data-reveal]` in globals.css) and only applies when JavaScript is running
+ * and the visitor hasn't asked for reduced motion. If either is missing, content
+ * is simply visible; nothing can be stranded at opacity 0.
  */
-export default function Reveal({
-  children,
-  delay = 0,
-  y = 24,
-  className,
-  as = "div",
-}: RevealProps) {
-  const reduceMotion = useReducedMotion();
-  const MotionTag = motion[as];
+export default function Reveal({ children, delay = 0, y = 24, className, as = "div" }: RevealProps) {
+  const ref = useRef<HTMLElement>(null);
 
-  if (reduceMotion) {
-    const Tag = as;
-    return <Tag className={className}>{children}</Tag>;
-  }
+  useEffect(() => {
+    const element = ref.current;
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        element.dataset.revealed = "";
+        observer.disconnect();
+      },
+      { rootMargin: "0px 0px -80px 0px" }
+    );
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
+  const Tag = as;
+  const style = {
+    "--reveal-delay": `${delay}s`,
+    "--reveal-y": `${y}px`,
+  } as CSSProperties;
 
   return (
-    <MotionTag
-      initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
+    <Tag
+      // A callback ref keeps the typing simple across the three possible tags.
+      ref={(node: HTMLElement | null) => {
+        ref.current = node;
+      }}
+      data-reveal=""
       className={className}
+      style={style}
     >
       {children}
-    </MotionTag>
+    </Tag>
   );
 }

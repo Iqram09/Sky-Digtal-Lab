@@ -1,13 +1,10 @@
-export const projectTypes = [
-  "Website",
-  "Web Application",
-  "UI/UX Design",
-  "Branding",
-  "Automation",
-  "API / Integration",
-  "Cloud / Infrastructure",
-  "Other",
-] as const;
+import { services } from "@/content/services";
+
+/** Project types mirror the services page, so a service CTA can preselect one. */
+export const projectTypes: { value: string; label: string }[] = [
+  ...services.map((service) => ({ value: service.slug, label: service.title })),
+  { value: "other", label: "Something else" },
+];
 
 export const budgets = [
   "Under ₹50K",
@@ -18,10 +15,10 @@ export const budgets = [
   "Not sure yet",
 ] as const;
 
-export const timelines = [
-  "ASAP",
-  "1–2 months",
-  "3–6 months",
-  "6+ months",
-  "Flexible",
+export const contactMethods = [
+  { value: "email", label: "Email" },
+  { value: "phone", label: "Phone call" },
+  { value: "whatsapp", label: "WhatsApp" },
 ] as const;
+
+export type ContactMethod = (typeof contactMethods)[number]["value"];

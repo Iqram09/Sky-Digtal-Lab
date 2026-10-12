@@ -7,59 +7,32 @@ export type ProcessStep = {
 export const processSteps: ProcessStep[] = [
   {
     number: "01",
-    title: "DISCOVER",
-    description:
-      "We understand your business, audience, goals and the problem we're solving.",
+    title: "Discover",
+    description: "Understand the business, audience, and requirements.",
   },
   {
     number: "02",
-    title: "STRATEGIZE",
-    description:
-      "We define the product structure, technical approach, priorities and roadmap.",
+    title: "Define",
+    description: "Establish scope, priorities, and deliverables.",
   },
   {
     number: "03",
-    title: "DESIGN",
-    description:
-      "We create the visual direction, user experience and interface system.",
+    title: "Design",
+    description: "Create the structure and visual direction.",
   },
   {
     number: "04",
-    title: "BUILD",
-    description:
-      "Our engineers turn the approved design into a fast, reliable and scalable product.",
+    title: "Develop",
+    description: "Build and integrate the solution.",
   },
   {
     number: "05",
-    title: "LAUNCH",
-    description: "We test, optimize and deploy the product into production.",
+    title: "Validate",
+    description: "Test functionality, performance, accessibility, and quality.",
   },
   {
     number: "06",
-    title: "EVOLVE",
-    description:
-      "Launch is the beginning. We continue improving the product as your business grows.",
+    title: "Deliver",
+    description: "Launch, document, and support the agreed solution.",
   },
 ];
-
-/** Short pipeline shown under the hero. */
-export const pipeline = [
-  "STRATEGY",
-  "DESIGN",
-  "DEVELOPMENT",
-  "DEPLOYMENT",
-  "GROWTH",
-] as const;
-
-/** The long-form ladder used by the "From idea to infrastructure" section. */
-export const ladder = [
-  "IDEA",
-  "STRATEGY",
-  "BRAND",
-  "DESIGN",
-  "PRODUCT",
-  "ENGINEERING",
-  "AUTOMATION",
-  "INFRASTRUCTURE",
-  "GROWTH",
-] as const;

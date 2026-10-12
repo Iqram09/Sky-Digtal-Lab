@@ -11,7 +11,6 @@ type SectionRailProps = {
 
 /**
  * The narrow mono column that sits to the left of every section heading.
- * Lifted out of the original Capabilities section so the whole page shares it.
  */
 export default function SectionRail({
   index,
@@ -21,6 +20,8 @@ export default function SectionRail({
   tone = "dark",
   className,
 }: SectionRailProps) {
+  const muted = tone === "dark" ? "text-subtle" : "text-on-taupe-muted";
+
   return (
     <div
       className={cn(
@@ -28,26 +29,17 @@ export default function SectionRail({
         className
       )}
     >
-      <div className="font-mono text-xs uppercase tracking-widest">
-        <span className={tone === "dark" ? "block text-accent" : "block"}>
+      <p className="font-mono text-xs uppercase tracking-widest">
+        <span className={tone === "dark" ? "block text-accent" : "block text-on-taupe"}>
           {index} / {label}
         </span>
-        {sublabel ? (
-          <span
-            className={cn(
-              "mt-2 block",
-              tone === "dark" ? "text-white/40" : "text-black/40"
-            )}
-          >
-            {sublabel}
-          </span>
-        ) : null}
-      </div>
+        {sublabel ? <span className={cn("mt-2 block", muted)}>{sublabel}</span> : null}
+      </p>
       {footnote ? (
         <span
           className={cn(
             "font-mono text-xs uppercase tracking-widest md:mt-24 md:block",
-            tone === "dark" ? "text-white/30" : "text-black/30"
+            muted
           )}
         >
           {footnote}

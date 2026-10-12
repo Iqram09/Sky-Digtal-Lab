@@ -1,11 +1,11 @@
-import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Inter, JetBrains_Mono, Schibsted_Grotesk } from "next/font/google";
 import "./globals.css";
 import CustomCursor from "@/components/ui/CustomCursor";
 import SmoothScroll from "@/components/layout/SmoothScroll";
 import Navigation from "@/components/layout/Navigation";
-import { services } from "@/content/services";
-import { faqs } from "@/content/faq";
+import Footer from "@/components/layout/Footer";
+import { team } from "@/content/team";
 import { site } from "@/lib/site";
 
 const inter = Inter({
@@ -14,13 +14,22 @@ const inter = Inter({
   display: "swap",
 });
 
+const schibsted = Schibsted_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-schibsted",
+  display: "swap",
+});
+
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-jetbrains",
   display: "swap",
+  // Mono is only used for small labels; skipping its preload frees bandwidth
+  // for the display and body faces that carry the LCP text.
+  preload: false,
 });
 
-const title = `${site.name} — Digital Products, Websites & Technology`;
+const title = `${site.name} — Digital Studio for Websites, Applications & Software`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -58,10 +67,14 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  themeColor: "#29292b",
+  colorScheme: "dark",
+};
+
 /**
  * Structured data describes only what is verifiably true about the studio:
- * who it is, what it offers and the questions answered on the page. No ratings,
- * no counts, no claims that aren't already in the copy.
+ * who it is, how to reach it and who founded it. No ratings, no counts.
  */
 const structuredData = {
   "@context": "https://schema.org",
@@ -74,6 +87,7 @@ const structuredData = {
       description: site.description,
       slogan: site.tagline,
       email: site.email,
+      founder: team.map((member) => ({ "@type": "Person", name: member.name, jobTitle: member.role })),
     },
     {
       "@type": "WebSite",
@@ -83,36 +97,6 @@ const structuredData = {
       description: site.description,
       publisher: { "@id": `${site.url}/#organization` },
       inLanguage: "en",
-    },
-    {
-      "@type": "ProfessionalService",
-      "@id": `${site.url}/#service`,
-      name: site.name,
-      url: site.url,
-      description: site.description,
-      provider: { "@id": `${site.url}/#organization` },
-      hasOfferCatalog: {
-        "@type": "OfferCatalog",
-        name: "What we build",
-        itemListElement: services.map((service) => ({
-          "@type": "OfferCatalog",
-          name: service.title,
-          description: service.description,
-          itemListElement: service.capabilities.map((capability) => ({
-            "@type": "Offer",
-            itemOffered: { "@type": "Service", name: capability },
-          })),
-        })),
-      },
-    },
-    {
-      "@type": "FAQPage",
-      "@id": `${site.url}/#faq`,
-      mainEntity: faqs.map((faq) => ({
-        "@type": "Question",
-        name: faq.question,
-        acceptedAnswer: { "@type": "Answer", text: faq.answer },
-      })),
     },
   ],
 };
@@ -125,9 +109,15 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${jetbrainsMono.variable} antialiased`}
+      className={`${inter.variable} ${schibsted.variable} ${jetbrainsMono.variable} antialiased`}
+      // The inline script below adds `js` before hydration.
+      suppressHydrationWarning
     >
-      <body className="font-sans min-h-screen text-foreground bg-background selection:bg-white/20 selection:text-white">
+      <head>
+        {/* Marks that JS is running so scroll-reveal styles may hide content first. */}
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+      </head>
+      <body className="min-h-screen bg-background font-sans text-foreground">
         <a href="#main" className="skip-link">
           Skip to content
         </a>
@@ -135,6 +125,7 @@ export default function RootLayout({
         <SmoothScroll>
           <Navigation />
           {children}
+          <Footer />
         </SmoothScroll>
         <script
           type="application/ld+json"

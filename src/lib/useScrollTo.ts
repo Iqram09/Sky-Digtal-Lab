@@ -22,8 +22,8 @@ export function useScrollTo() {
       ).matches;
 
       if (lenis && !prefersReduced) {
-        // Negative offset keeps the section's top clear of the fixed header.
-        lenis.scrollTo(target, { offset: -72, duration: 1.4 });
+        // Header clearance comes from the target's scroll-margin-top.
+        lenis.scrollTo(target, { duration: 1.4 });
       } else {
         target.scrollIntoView({
           behavior: prefersReduced ? "auto" : "smooth",

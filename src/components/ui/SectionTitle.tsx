@@ -8,12 +8,13 @@ type SectionTitleProps = {
   tone?: "dark" | "light";
   /** `display` is reserved for short, punchy headings. */
   size?: "default" | "display";
+  as?: "h2" | "h3";
   className?: string;
 };
 
 /**
- * Heading + hairline rule + optional right-hand meta, matching the typographic
- * rhythm established by the original "WHAT WE DO" header.
+ * Heading + hairline rule + optional right-hand meta — the typographic rhythm
+ * every section shares.
  */
 export default function SectionTitle({
   children,
@@ -21,29 +22,30 @@ export default function SectionTitle({
   description,
   tone = "dark",
   size = "default",
+  as: Heading = "h2",
   className,
 }: SectionTitleProps) {
-  const rule = tone === "dark" ? "border-white/15" : "border-black/15";
-  const muted = tone === "dark" ? "text-white/55" : "text-black/55";
+  const rule = tone === "dark" ? "border-foreground/15" : "border-on-taupe/20";
+  const muted = tone === "dark" ? "text-muted" : "text-on-taupe-muted";
 
   return (
     <div className={cn("mb-12 md:mb-16", className)}>
       <div className={cn("flex items-end justify-between border-b pb-5", rule)}>
-        <h2
+        <Heading
           className={cn(
-            "font-semibold leading-[0.95] tracking-tight text-balance",
+            "font-display font-semibold leading-[0.98] tracking-tight text-balance",
             size === "display"
-              ? "text-5xl md:text-7xl lg:text-8xl"
-              : "text-4xl md:text-5xl lg:text-6xl"
+              ? "text-4xl md:text-6xl lg:text-7xl"
+              : "text-3xl md:text-5xl lg:text-[3.4rem]"
           )}
         >
           {children}
-        </h2>
+        </Heading>
         {meta ? (
           <span
             className={cn(
               "ml-6 hidden shrink-0 font-mono text-xs uppercase tracking-widest md:block",
-              tone === "dark" ? "text-white/40" : "text-black/40"
+              tone === "dark" ? "text-subtle" : "text-on-taupe-muted"
             )}
           >
             {meta}

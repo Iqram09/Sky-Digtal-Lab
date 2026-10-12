@@ -1,38 +1,46 @@
 export type Problem = {
   number: string;
   statement: string;
+  /** The service that usually answers it — links into /services. */
+  service: string;
   answer: string;
 };
 
 export const problems: Problem[] = [
   {
     number: "01",
-    statement: "OUR WEBSITE NO LONGER REPRESENTS US.",
+    statement: "Our website no longer represents us.",
+    service: "web-design-development",
     answer: "Website redesign",
   },
   {
     number: "02",
-    statement: "WE NEED TO LAUNCH A DIGITAL PRODUCT.",
-    answer: "Product strategy + design + development",
+    statement: "We need to launch a digital product.",
+    service: "ui-ux-product-design",
+    answer: "Product design + development",
   },
   {
     number: "03",
-    statement: "OUR BUSINESS RELIES ON TOO MUCH MANUAL WORK.",
-    answer: "Automation + integrations",
+    statement: "Our business relies on too much manual work.",
+    service: "automation-ai",
+    answer: "Automation",
   },
   {
     number: "04",
-    statement: "OUR SYSTEMS DON'T COMMUNICATE WITH EACH OTHER.",
-    answer: "API + system integrations",
+    statement: "Our systems don't communicate with each other.",
+    service: "api-development-integration",
+    answer: "API + system integration",
   },
   {
     number: "05",
-    statement: "WE NEED A STRONGER DIGITAL IDENTITY.",
-    answer: "Branding + digital experience",
+    statement: "We need a stronger digital identity.",
+    service: "branding-visual-identity",
+    answer: "Branding + visual identity",
   },
   {
     number: "06",
-    statement: "WE NEED CUSTOM SOFTWARE.",
-    answer: "Product engineering",
+    statement: "We need software built around how we work.",
+    service: "web-applications-custom-software",
+    answer: "Custom software",
   },
 ];

@@ -2,27 +2,37 @@
 
 @theme {
   --font-sans: var(--font-inter);
+  --font-display: var(--font-schibsted);
   --font-mono: var(--font-jetbrains);
 
-  /* Core palette — dark base, warm off-white inverse, electric lime accent */
-  --color-background: #050505;
-  --color-foreground: #F5F5F0;
-  --color-accent: #c9ff4a;
-
-  /* Surface steps used to give the page its dark/light rhythm */
-  --color-ink: #070909;
-  --color-panel: #101312;
-  --color-panel-alt: #0a0c0c;
+  /*
+   * Palette — jet black base, pale taupe as the single accent, off-white type.
+   * Text tokens are chosen to clear WCAG AA (4.5:1) on every dark surface:
+   *   muted  #B4B2A9 → 6.8:1 on background, 6.0:1 on panel
+   *   subtle #A19F98 → 5.5:1 on background, 4.8:1 on panel (labels only)
+   */
+  --color-background: #29292b;
+  --color-foreground: #f4f2ec;
+  --color-accent: #c9c7ba;
+  --color-ink: #1e1e20;
+  --color-panel: #323235;
+  --color-muted: #b4b2a9;
+  --color-subtle: #a19f98;
+  --color-taupe: #c9c7ba;
+  --color-on-taupe: #29292b;
+  --color-on-taupe-muted: #4a4944;
+  --color-danger: #f0a08f;
 }
 
 :root {
-  --background: #050505;
-  --foreground: #F5F5F0;
-  --accent: #c9ff4a;
+  --background: #29292b;
+  --foreground: #f4f2ec;
+  --accent: #c9c7ba;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Base resets for luxury feel */
-html, body {
+html,
+body {
   background-color: var(--background);
   color: var(--foreground);
   -webkit-font-smoothing: antialiased;
@@ -31,34 +41,31 @@ html, body {
 }
 
 /* Guard against accidental horizontal scroll from oversized display type */
-html, body {
+html,
+body {
   max-width: 100%;
   overflow-x: clip;
 }
 
-/* Custom text selection */
 ::selection {
-  background-color: rgba(255, 255, 255, 0.2);
-  color: #fff;
+  background-color: var(--accent);
+  color: #29292b;
 }
 
-/* Hide scrollbar for premium feel */
-::-webkit-scrollbar {
-  width: 0px;
-  background: transparent; 
-}
+/* A quiet scrollbar that still shows position — hidden scrollbars cost usability */
 * {
-  scrollbar-width: none; 
+  scrollbar-width: thin;
+  scrollbar-color: rgba(201, 199, 186, 0.35) transparent;
 }
 
-/* Keyboard focus — visible on both the dark and the inverted sections */
+/* Keyboard focus — visible on both the dark and the taupe sections */
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
   border-radius: 2px;
 }
 .on-light :focus-visible {
-  outline-color: #050505;
+  outline-color: #29292b;
 }
 
 /* Skip link for keyboard + screen reader users */
@@ -69,9 +76,9 @@ html, body {
   z-index: 100;
   transform: translateY(-120%);
   background: var(--accent);
-  color: #050505;
+  color: #29292b;
   padding: 0.75rem 1.25rem;
-  font-family: var(--font-mono), ui-monospace, monospace;
+  font-family: var(--font-jetbrains), ui-monospace, monospace;
   font-size: 0.7rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -82,34 +89,30 @@ html, body {
 }
 
 /* Lenis recommended styles */
-html.lenis, html.lenis body {
+html.lenis,
+html.lenis body {
   height: auto;
 }
-
 .lenis.lenis-smooth {
   scroll-behavior: auto !important;
 }
-
 .lenis.lenis-smooth [data-lenis-prevent] {
   overscroll-behavior: contain;
 }
-
 .lenis.lenis-stopped {
   overflow: hidden;
 }
-
 .lenis.lenis-smooth iframe {
   pointer-events: none;
 }
 
-/* Grid utility class */
+/* Twelve-column editorial grid shared by every section */
 .premium-grid {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: 1.5rem;
 }
 
-/* Shared editorial rules so every section keeps the same rhythm */
 .section-shell {
   width: 100%;
   padding-inline: 1.5rem;
@@ -120,9 +123,75 @@ html.lenis, html.lenis body {
   }
 }
 
-/* Hairline rules reused across sections */
-.rule-dark { border-color: rgba(255, 255, 255, 0.15); }
-.rule-light { border-color: rgba(5, 5, 5, 0.15); }
+/* Hero headline: a CSS-only rise so the LCP text paints before hydration */
+@keyframes line-rise {
+  from {
+    transform: translateY(105%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes fade-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes scroll-cue {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(200%);
+  }
+}
+.line-mask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.06em;
+}
+.line-rise {
+  display: block;
+  animation: line-rise 1.1s var(--ease-out-expo) both;
+}
+.fade-rise {
+  animation: fade-rise 0.9s var(--ease-out-expo) both;
+}
+
+/*
+ * Scroll reveals (see components/ui/Reveal.tsx). The hidden state applies only
+ * when JS has run (`.js` on <html>) and motion is welcome, so content can never
+ * be stranded invisible.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-reveal] {
+    transition:
+      opacity 0.8s var(--ease-out-expo) var(--reveal-delay, 0s),
+      transform 0.8s var(--ease-out-expo) var(--reveal-delay, 0s);
+  }
+  .js [data-reveal]:not([data-revealed]) {
+    opacity: 0;
+    transform: translateY(var(--reveal-y, 24px));
+  }
+}
+
+/*
+ * Route change: a short settle-in for the incoming page (never on first load).
+ * `backwards` fill so no transform lingers on the wrapper afterwards.
+ */
+.page-enter {
+  animation: fade-rise 0.55s var(--ease-out-expo) backwards;
+}
+
+/* Anchored sections clear the fixed header when reached natively */
+[id] {
+  scroll-margin-top: 6rem;
+}
 
 /* Respect reduced-motion: stop looping/scroll-linked motion, keep layout intact */
 @media (prefers-reduced-motion: reduce) {
@@ -130,6 +199,7 @@ html.lenis, html.lenis body {
   *::before,
   *::after {
     animation-duration: 0.001ms !important;
+    animation-delay: 0ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;

@@ -7,7 +7,7 @@ export const faqs: FaqItem[] = [
   {
     question: "What kind of websites do you build?",
     answer:
-      "We build business websites, corporate websites, landing pages, portfolios, e-commerce experiences and custom digital websites.",
+      "Corporate and business websites, landing pages, portfolios and e-commerce storefronts — including custom-built sites and stores on platforms such as Shopify.",
   },
   {
     question: "Do you only design websites?",
@@ -17,26 +17,31 @@ export const faqs: FaqItem[] = [
   {
     question: "Can you build a custom application?",
     answer:
-      "Yes. We design and develop custom applications based on business requirements and technical needs.",
+      "Yes. We design and develop custom applications — dashboards, internal tools and customer portals — based on your business requirements.",
   },
   {
     question: "Can you redesign an existing website?",
     answer:
-      "Yes. We can audit the existing experience, redesign the interface and rebuild the website where necessary.",
+      "Yes. We review the existing experience, redesign the interface and rebuild the website where that is the better option.",
   },
   {
-    question: "Can you integrate third-party services?",
+    question: "How much does a project cost, and how long does it take?",
     answer:
-      "Yes. We can integrate APIs, payment systems, CRMs, communication platforms, analytics tools and other business systems.",
+      "It depends on the scope, so we don't publish fixed prices or timelines. After a first conversation we agree a written scope, and the estimate follows from it.",
   },
   {
-    question: "Do you provide maintenance?",
+    question: "What if a project needs skills you don't have in-house?",
     answer:
-      "Yes. We can continue supporting, maintaining and improving products after launch.",
+      "We may bring in qualified external specialists. We tell you when we do, and we remain accountable for the deliverables we agreed.",
+  },
+  {
+    question: "Do you provide support after launch?",
+    answer:
+      "Yes. We can continue supporting, maintaining and improving what we build after it goes live.",
   },
   {
     question: "How does a project start?",
     answer:
-      "Start by telling us what you're trying to build, improve or solve. We'll review the requirements and determine the right next step.",
+      "Tell us what you're trying to build, improve or solve through the contact form. We'll review it and come back with the right next step.",
   },
 ];
