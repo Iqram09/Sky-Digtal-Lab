@@ -5,15 +5,12 @@
 
 /**
  * Canonical origin, used for canonical/OG URLs, the sitemap and robots.txt.
- * Set NEXT_PUBLIC_SITE_URL once a custom domain is attached. Until then the
- * Vercel production URL is used, so canonicals always point at a live address.
+ * The project answers on more than one *.vercel.app address, so the primary
+ * one is named explicitly. Set NEXT_PUBLIC_SITE_URL to override it, e.g. once
+ * a custom domain is attached.
  */
 function resolveSiteUrl() {
-  if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL;
-  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
-    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
-  }
-  return "https://skylab-nine.vercel.app";
+  return process.env.NEXT_PUBLIC_SITE_URL ?? "https://skydigitallab.vercel.app";
 }
 
 export const site = {

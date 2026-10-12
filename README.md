@@ -50,7 +50,7 @@ Set these in Vercel → Project → Settings → Environment Variables.
 | `RESEND_API_KEY` | Yes, for the contact form | API key from https://resend.com/api-keys |
 | `CONTACT_TO_EMAIL` | No | Inbox for enquiries. Defaults to the public email in `site.ts`. |
 | `CONTACT_FROM_EMAIL` | No | Sender, e.g. `Sky Digital Lab <hello@yourdomain.com>`, on a domain verified in Resend. Defaults to Resend's `onboarding@resend.dev`, which only delivers to the address the Resend account was created with. |
-| `NEXT_PUBLIC_SITE_URL` | No | Canonical origin once a custom domain is attached. Defaults to the Vercel production URL. |
+| `NEXT_PUBLIC_SITE_URL` | No | Canonical origin once a custom domain is attached. Defaults to `https://skydigitallab.vercel.app`. |
 
 Without `RESEND_API_KEY` the form still validates, but on submit it tells the visitor it can't send right now and
 offers a pre-filled email instead — nothing is silently lost.
@@ -63,5 +63,6 @@ notification through the Resend API with the visitor's address as `reply-to`.
 
 ## Deployment
 
-The `skylab` project on Vercel builds with the Next.js preset (`next build`). Nothing beyond the environment
-variables above is needed.
+The `skylab` project on Vercel is connected to this repository: pushes to `main` deploy to production at
+https://skydigitallab.vercel.app (the older skylab-nine.vercel.app address serves the same deployment), and
+other branches get preview deployments. Nothing beyond the environment variables above is needed.
