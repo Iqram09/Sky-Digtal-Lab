@@ -53,20 +53,4 @@ export const team: TeamMember[] = [
       "Project planning",
     ],
   },
-  {
-    slug: "danish",
-    name: "Danish",
-    initials: "D",
-    role: "Sales, Marketing and Operations",
-    focus: "Growth & Operations",
-    bio: "Danish brings new work to the studio and keeps it running smoothly — from outreach and marketing to the operational coordination that supports every project through delivery.",
-    responsibilities: [
-      "Lead generation",
-      "Sales and outreach",
-      "Marketing strategy",
-      "Business development",
-      "Operational coordination",
-      "Supporting project delivery",
-    ],
-  },
 ];

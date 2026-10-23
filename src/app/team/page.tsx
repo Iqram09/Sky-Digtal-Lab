@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Glow from "@/components/brand/Glow";
 import Monogram from "@/components/ui/Monogram";
 import PageHeader from "@/components/ui/PageHeader";
 import Reveal from "@/components/ui/Reveal";
@@ -11,7 +12,7 @@ import { pageMetadata } from "@/lib/metadata";
 export const metadata = pageMetadata({
   title: "Our Team",
   description:
-    "Meet the founders of Sky Digital Lab: Iqram Patel (technology, development and architecture), Rashid (business, client relationships and design) and Danish (sales, marketing and operations).",
+    "Meet the founders of Sky Digital Lab: Iqram Patel (technology, development and architecture) and Rashid (business, client relationships and design).",
   path: "/team",
 });
 
@@ -26,11 +27,6 @@ const collaboration = [
     owner: "Rashid",
     text: "Requirements, design direction and the project plan — what gets built, and why.",
   },
-  {
-    title: "Growth & Operations",
-    owner: "Danish",
-    text: "Outreach, marketing and day-to-day coordination — so projects start well and run smoothly.",
-  },
 ];
 
 export default function TeamPage() {
@@ -39,7 +35,7 @@ export default function TeamPage() {
       <PageHeader
         eyebrow="Our team"
         title="The people behind the work."
-        intro="Three perspectives. One shared commitment to building better digital experiences."
+        intro="Two perspectives. One shared commitment to building better digital experiences."
       />
 
       <section aria-label="Team profiles" className="w-full bg-background">
@@ -59,16 +55,20 @@ export default function TeamPage() {
                     width={800}
                     height={1000}
                     sizes="(max-width: 768px) 70vw, 30vw"
-                    className="aspect-[4/5] w-full object-cover"
+                    className="aspect-[4/5] w-full rounded-[20px] object-cover"
                   />
                 ) : (
-                  <Monogram initials={member.initials} index={String(index + 1).padStart(2, "0")} />
+                  <Monogram
+                    initials={member.initials}
+                    index={String(index + 1).padStart(2, "0")}
+                    glow={index % 2 === 0 ? "mint" : "lavender"}
+                  />
                 )}
               </Reveal>
 
               <div className="col-span-12 md:col-span-8 lg:col-span-7 lg:col-start-6">
                 <Reveal delay={0.06}>
-                  <p className="font-mono text-xs uppercase tracking-widest text-accent">
+                  <p className="label-caps text-[11px] text-subtle">
                     {String(index + 1).padStart(2, "0")} / Founder
                   </p>
                   <h2
@@ -77,7 +77,7 @@ export default function TeamPage() {
                   >
                     {member.name}
                   </h2>
-                  <p className="mt-5 font-mono text-[11px] uppercase tracking-[0.2em] text-muted">
+                  <p className="mt-5 label-caps text-[11px] text-muted">
                     {member.role}
                   </p>
                   <p className="mt-8 max-w-2xl text-lg leading-relaxed text-muted md:text-xl">
@@ -86,13 +86,13 @@ export default function TeamPage() {
                 </Reveal>
 
                 <Reveal delay={0.12} className="mt-10 border-t border-foreground/15 pt-8">
-                  <h3 className="mb-5 font-mono text-[10px] uppercase tracking-[0.22em] text-subtle">
+                  <h3 className="mb-5 label-caps text-[11px] text-subtle">
                     Responsibilities
                   </h3>
                   <ul className="grid gap-x-10 gap-y-3 sm:grid-cols-2">
                     {member.responsibilities.map((item) => (
                       <li key={item} className="flex gap-3 text-base text-foreground/90">
-                        <span aria-hidden className="mt-[0.65em] h-px w-4 shrink-0 bg-accent" />
+                        <span aria-hidden className="mt-[0.7em] h-px w-4 shrink-0 bg-foreground/50" />
                         {item}
                       </li>
                     ))}
@@ -104,24 +104,27 @@ export default function TeamPage() {
         ))}
       </section>
 
-      <section className="relative w-full bg-ink py-24 md:py-36">
-        <div className="premium-grid w-full px-6 md:px-12">
+      <section className="surface-dark relative w-full overflow-hidden bg-background py-24 md:py-36">
+        <Glow tone="mint" className="-right-[22rem] -top-[20rem] w-[min(820px,130vw)]" />
+        <Glow tone="lavender" className="-bottom-[24rem] -left-[20rem] w-[min(760px,130vw)]" />
+
+        <div className="premium-grid relative z-10 w-full px-6 md:px-12">
           <SectionRail index="02" label="Together" sublabel="How we work together" />
           <div className="col-span-12 mt-12 md:col-span-9 md:col-start-4 md:mt-0 lg:col-span-8 lg:col-start-5">
             <SectionTitle
               size="display"
-              description="Every project gets all three perspectives from the first conversation. Technology, design, business development and operations sit in the same room — so decisions are made once, with the full picture."
+              description="Every project gets both perspectives from the first conversation. Technology, business and design sit in the same room — so decisions are made once, with the full picture."
             >
               How we work together
             </SectionTitle>
           </div>
         </div>
 
-        <ol className="mx-6 grid gap-px border border-foreground/12 bg-foreground/12 md:mx-12 md:grid-cols-3">
+        <ol className="relative z-10 mx-6 grid gap-4 md:mx-12 md:grid-cols-2">
           {collaboration.map((item, index) => (
-            <Reveal as="li" key={item.title} delay={index * 0.06} className="flex min-h-[240px] flex-col justify-between bg-ink p-6 md:p-10">
-              <span className="flex items-baseline justify-between font-mono text-[10px] uppercase tracking-[0.2em]">
-                <span className="text-accent">{String(index + 1).padStart(2, "0")}</span>
+            <Reveal as="li" key={item.title} delay={index * 0.06} className="flex min-h-[240px] flex-col justify-between rounded-[20px] border border-foreground/10 bg-panel p-6 md:p-10">
+              <span className="flex items-baseline justify-between label-caps text-[11px]">
+                <span className="text-foreground">{String(index + 1).padStart(2, "0")}</span>
                 <span className="text-subtle">{item.owner}</span>
               </span>
               <span className="mt-10 block">
@@ -134,7 +137,7 @@ export default function TeamPage() {
           ))}
         </ol>
 
-        <div className="premium-grid mt-14 w-full px-6 md:px-12">
+        <div className="premium-grid relative z-10 mt-14 w-full px-6 md:px-12">
           <Reveal className="col-span-12 md:col-span-9 md:col-start-4 lg:col-span-8 lg:col-start-5">
             <p className="max-w-2xl text-lg leading-relaxed text-muted">
               You get one point of contact and a team that already agrees on

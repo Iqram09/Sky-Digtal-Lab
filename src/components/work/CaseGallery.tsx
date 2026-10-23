@@ -51,10 +51,10 @@ function GalleryFigure({ item, url, sizes }: { item: GalleryItem; url: string; s
         width={item.width}
         height={item.height}
         sizes={sizes}
-        className="h-auto w-full rounded-[10px] border border-foreground/10"
+        className="h-auto w-full rounded-[12px] border border-foreground/10"
       />
       {item.caption ? (
-        <figcaption className="mt-4 max-w-xl font-mono text-[11px] leading-relaxed tracking-wide text-subtle">
+        <figcaption className="mt-4 max-w-xl text-sm leading-relaxed text-subtle">
           {item.caption}
         </figcaption>
       ) : null}

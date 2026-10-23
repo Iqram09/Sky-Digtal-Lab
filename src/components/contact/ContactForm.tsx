@@ -17,9 +17,9 @@ import { cn } from "@/lib/utils";
 
 const initialState: EnquiryState = { status: "idle" };
 
-const labelClass = "mb-2 block font-mono text-[10px] uppercase tracking-[0.2em] text-muted";
+const labelClass = "label-caps mb-2 block text-[11px] text-muted";
 const fieldClass =
-  "w-full border-b bg-transparent py-3 text-base text-foreground outline-none transition-colors placeholder:text-subtle focus:border-accent md:text-lg";
+  "w-full border-b bg-transparent py-3 text-base text-foreground outline-none transition-colors placeholder:text-subtle focus:border-foreground md:text-lg";
 
 /** Order in which invalid fields receive focus. */
 const fieldOrder: (keyof EnquiryValues)[] = [
@@ -102,9 +102,9 @@ export default function ContactForm({ initialProjectType = "" }: { initialProjec
         ref={statusRef}
         tabIndex={-1}
         role="status"
-        className="border border-accent/50 bg-accent/[0.06] p-6 outline-none md:p-10"
+        className="surface-mint rounded-[20px] p-6 outline-none md:p-10"
       >
-        <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-accent">Enquiry sent</p>
+        <p className="label-caps text-[11px] text-foreground">Enquiry sent</p>
         <h2 className="mt-4 font-display text-3xl font-semibold tracking-tight text-foreground md:text-4xl">
           Thank you{values.name.trim() ? `, ${values.name.trim().split(" ")[0]}` : ""}.
         </h2>
@@ -125,7 +125,7 @@ export default function ContactForm({ initialProjectType = "" }: { initialProjec
             setErrors({});
             setSuccessDismissed(true);
           }}
-          className="mt-8 border border-foreground/25 px-5 py-3 font-mono text-[10px] uppercase tracking-[0.2em] text-foreground transition-colors hover:border-accent hover:text-accent"
+          className="label-caps mt-8 rounded-full border border-foreground/40 px-5 py-3 text-[11px] text-foreground transition-colors hover:border-foreground hover:bg-foreground hover:text-background"
         >
           Send another enquiry
         </button>
@@ -149,13 +149,13 @@ export default function ContactForm({ initialProjectType = "" }: { initialProjec
           ref={statusRef}
           tabIndex={-1}
           role="alert"
-          className="border border-danger/50 bg-danger/[0.06] p-5 outline-none md:p-6"
+          className="rounded-[16px] border border-danger/50 bg-danger/[0.06] p-5 outline-none md:p-6"
         >
           <p className="text-base text-foreground">{state.message}</p>
           {state.offerEmail ? (
             <p className="mt-2 text-sm leading-relaxed text-muted">
               Your details are still in the form. You can{" "}
-              <a href={mailtoHref} className="text-foreground underline underline-offset-4 hover:text-accent">
+              <a href={mailtoHref} className="text-foreground underline underline-offset-4 hover:text-muted">
                 send them by email instead
               </a>{" "}
               — it reaches the same inbox at {site.email}.
@@ -164,8 +164,8 @@ export default function ContactForm({ initialProjectType = "" }: { initialProjec
         </div>
       ) : null}
 
-      <p id="form-note" className="font-mono text-[10px] uppercase tracking-[0.18em] text-subtle">
-        Fields marked <span className="text-accent">*</span> are required.
+      <p id="form-note" className="label-caps text-[11px] text-subtle">
+        Fields marked <span className="text-foreground">*</span> are required.
       </p>
 
       {/* Honeypot — invisible to people, irresistible to bots. */}
@@ -178,7 +178,7 @@ export default function ContactForm({ initialProjectType = "" }: { initialProjec
       <div className="grid gap-8 md:grid-cols-2">
         <div>
           <label htmlFor="name" className={labelClass}>
-            Name <span className="text-accent">*</span>
+            Name <span className="text-foreground">*</span>
           </label>
           <input
             id="name"
@@ -192,14 +192,14 @@ export default function ContactForm({ initialProjectType = "" }: { initialProjec
             aria-invalid={Boolean(errorFor("name"))}
             aria-describedby={describedBy("name")}
             placeholder="Your name"
-            className={cn(fieldClass, errorFor("name") ? "border-danger" : "border-foreground/25")}
+            className={cn(fieldClass, errorFor("name") ? "border-danger" : "border-foreground/50")}
           />
           <FieldError id="name-error" message={errorFor("name")} />
         </div>
 
         <div>
           <label htmlFor="email" className={labelClass}>
-            Business email <span className="text-accent">*</span>
+            Business email <span className="text-foreground">*</span>
           </label>
           <input
             id="email"
@@ -214,7 +214,7 @@ export default function ContactForm({ initialProjectType = "" }: { initialProjec
             aria-invalid={Boolean(errorFor("email"))}
             aria-describedby={describedBy("email")}
             placeholder="you@company.com"
-            className={cn(fieldClass, errorFor("email") ? "border-danger" : "border-foreground/25")}
+            className={cn(fieldClass, errorFor("email") ? "border-danger" : "border-foreground/50")}
           />
           <FieldError id="email-error" message={errorFor("email")} />
         </div>
@@ -236,14 +236,14 @@ export default function ContactForm({ initialProjectType = "" }: { initialProjec
             aria-invalid={Boolean(errorFor("company"))}
             aria-describedby={describedBy("company")}
             placeholder="Company or brand name"
-            className={cn(fieldClass, errorFor("company") ? "border-danger" : "border-foreground/25")}
+            className={cn(fieldClass, errorFor("company") ? "border-danger" : "border-foreground/50")}
           />
           <FieldError id="company-error" message={errorFor("company")} />
         </div>
 
         <div>
           <label htmlFor="projectType" className={labelClass}>
-            Project type <span className="text-accent">*</span>
+            Project type <span className="text-foreground">*</span>
           </label>
           <select
             id="projectType"
@@ -256,16 +256,16 @@ export default function ContactForm({ initialProjectType = "" }: { initialProjec
             className={cn(
               fieldClass,
               "cursor-pointer appearance-none bg-[length:12px] bg-[right_4px_center] bg-no-repeat pr-8",
-              "bg-[url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23b4b2a9' stroke-width='1.5'/%3E%3C/svg%3E\")]",
-              errorFor("projectType") ? "border-danger" : "border-foreground/25",
+              "bg-[url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%234a4a52' stroke-width='1.5'/%3E%3C/svg%3E\")]",
+              errorFor("projectType") ? "border-danger" : "border-foreground/50",
               values.projectType ? "text-foreground" : "text-subtle"
             )}
           >
-            <option value="" className="bg-ink text-foreground">
+            <option value="">
               Select a project type
             </option>
             {projectTypes.map((type) => (
-              <option key={type.value} value={type.value} className="bg-ink text-foreground">
+              <option key={type.value} value={type.value}>
                 {type.label}
               </option>
             ))}
@@ -288,16 +288,16 @@ export default function ContactForm({ initialProjectType = "" }: { initialProjec
           className={cn(
             fieldClass,
             "cursor-pointer appearance-none bg-[length:12px] bg-[right_4px_center] bg-no-repeat pr-8 md:max-w-[calc(50%-1rem)]",
-            "bg-[url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23b4b2a9' stroke-width='1.5'/%3E%3C/svg%3E\")]",
-            errorFor("budget") ? "border-danger" : "border-foreground/25",
+            "bg-[url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%234a4a52' stroke-width='1.5'/%3E%3C/svg%3E\")]",
+            errorFor("budget") ? "border-danger" : "border-foreground/50",
             values.budget ? "text-foreground" : "text-subtle"
           )}
         >
-          <option value="" className="bg-ink text-foreground">
+          <option value="">
             Prefer not to say
           </option>
           {budgets.map((budget) => (
-            <option key={budget} value={budget} className="bg-ink text-foreground">
+            <option key={budget} value={budget}>
               {budget}
             </option>
           ))}
@@ -307,7 +307,7 @@ export default function ContactForm({ initialProjectType = "" }: { initialProjec
 
       <div>
         <label htmlFor="description" className={labelClass}>
-          Project description <span className="text-accent">*</span>
+          Project description <span className="text-foreground">*</span>
         </label>
         <textarea
           id="description"
@@ -323,10 +323,10 @@ export default function ContactForm({ initialProjectType = "" }: { initialProjec
           className={cn(
             fieldClass,
             "resize-y leading-relaxed",
-            errorFor("description") ? "border-danger" : "border-foreground/25"
+            errorFor("description") ? "border-danger" : "border-foreground/50"
           )}
         />
-        <p id="description-hint" className="mt-2 text-right font-mono text-[10px] tracking-wider text-subtle">
+        <p id="description-hint" className="mt-2 text-right text-xs tabular-nums text-subtle">
           {values.description.length} / {LIMITS.description}
         </p>
         <FieldError id="description-error" message={errorFor("description")} />
@@ -334,7 +334,7 @@ export default function ContactForm({ initialProjectType = "" }: { initialProjec
 
       <fieldset aria-describedby={describedBy("contactMethod")}>
         <legend id="contactMethod" tabIndex={-1} className={cn(labelClass, "outline-none")}>
-          Preferred contact method <span className="text-accent">*</span>
+          Preferred contact method <span className="text-foreground">*</span>
         </legend>
         <div className="mt-2 flex flex-wrap gap-2">
           {contactMethods.map((method) => {
@@ -343,11 +343,11 @@ export default function ContactForm({ initialProjectType = "" }: { initialProjec
               <label
                 key={method.value}
                 className={cn(
-                  "cursor-pointer border px-5 py-3 font-mono text-[10px] uppercase tracking-widest transition-colors",
-                  "focus-within:outline focus-within:outline-2 focus-within:outline-offset-[3px] focus-within:outline-accent",
+                  "label-caps cursor-pointer rounded-full border px-5 py-3 text-[11px] transition-colors",
+                  "focus-within:outline focus-within:outline-2 focus-within:outline-offset-[3px] focus-within:outline-foreground",
                   checked
-                    ? "border-accent bg-accent/10 text-accent"
-                    : "border-foreground/25 text-muted hover:border-foreground/60 hover:text-foreground"
+                    ? "border-foreground bg-foreground text-background"
+                    : "border-foreground/40 text-muted hover:border-foreground hover:text-foreground"
                 )}
               >
                 <input
@@ -369,7 +369,7 @@ export default function ContactForm({ initialProjectType = "" }: { initialProjec
       {showPhone ? (
         <div className="md:max-w-[calc(50%-1rem)]">
           <label htmlFor="phone" className={labelClass}>
-            Phone number <span className="text-accent">*</span>
+            Phone number <span className="text-foreground">*</span>
           </label>
           <input
             id="phone"
@@ -384,7 +384,7 @@ export default function ContactForm({ initialProjectType = "" }: { initialProjec
             aria-invalid={Boolean(errorFor("phone"))}
             aria-describedby={describedBy("phone")}
             placeholder="+91 98765 43210"
-            className={cn(fieldClass, errorFor("phone") ? "border-danger" : "border-foreground/25")}
+            className={cn(fieldClass, errorFor("phone") ? "border-danger" : "border-foreground/50")}
           />
           <FieldError id="phone-error" message={errorFor("phone")} />
         </div>
@@ -394,17 +394,17 @@ export default function ContactForm({ initialProjectType = "" }: { initialProjec
         <button
           type="submit"
           disabled={pending}
-          className="group relative inline-flex items-center justify-center gap-3 overflow-hidden border border-accent bg-accent px-7 py-4 font-mono text-[11px] uppercase tracking-[0.2em] text-on-taupe transition-opacity disabled:cursor-wait disabled:opacity-70"
+          className="label-caps group relative inline-flex items-center justify-center gap-3 overflow-hidden rounded-full border border-foreground bg-foreground px-7 py-4 text-[11px] text-background transition-opacity disabled:cursor-wait disabled:opacity-70"
         >
           <span
             aria-hidden
-            className="absolute inset-0 -translate-x-full bg-foreground transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-0 group-disabled:translate-x-[-100%] motion-reduce:transition-none"
+            className="absolute inset-0 -translate-x-full bg-muted transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-0 group-disabled:translate-x-[-100%] motion-reduce:transition-none"
           />
           <span className="relative z-10">{pending ? "Sending…" : "Send enquiry"}</span>
           {pending ? (
             <span
               aria-hidden
-              className="relative z-10 h-3 w-3 animate-spin rounded-full border border-on-taupe border-t-transparent"
+              className="relative z-10 h-3 w-3 animate-spin rounded-full border border-background border-t-transparent"
             />
           ) : (
             <span aria-hidden className="relative z-10 transition-transform duration-300 group-hover:translate-x-1 motion-reduce:transition-none">
@@ -415,7 +415,7 @@ export default function ContactForm({ initialProjectType = "" }: { initialProjec
 
         <p className="text-sm leading-relaxed text-muted">
           Prefer email?{" "}
-          <a href={`mailto:${site.email}`} className="text-foreground underline underline-offset-4 transition-colors hover:text-accent">
+          <a href={`mailto:${site.email}`} className="text-foreground underline underline-offset-4 transition-colors hover:text-muted">
             {site.email}
           </a>
         </p>

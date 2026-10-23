@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, JetBrains_Mono, Schibsted_Grotesk } from "next/font/google";
+import { Manrope } from "next/font/google";
 import "./globals.css";
 import CustomCursor from "@/components/ui/CustomCursor";
 import SmoothScroll from "@/components/layout/SmoothScroll";
@@ -8,25 +8,11 @@ import Footer from "@/components/layout/Footer";
 import { team } from "@/content/team";
 import { site } from "@/lib/site";
 
-const inter = Inter({
+// Manrope is the brand typeface for every piece of text (Brand Guidelines §07).
+const manrope = Manrope({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-manrope",
   display: "swap",
-});
-
-const schibsted = Schibsted_Grotesk({
-  subsets: ["latin"],
-  variable: "--font-schibsted",
-  display: "swap",
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-jetbrains",
-  display: "swap",
-  // Mono is only used for small labels; skipping its preload frees bandwidth
-  // for the display and body faces that carry the LCP text.
-  preload: false,
 });
 
 const title = `${site.name} — Digital Studio for Websites, Applications & Software`;
@@ -68,8 +54,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#29292b",
-  colorScheme: "dark",
+  themeColor: "#f3f2f0",
+  colorScheme: "light",
 };
 
 /**
@@ -109,7 +95,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${schibsted.variable} ${jetbrainsMono.variable} antialiased`}
+      className={`${manrope.variable} antialiased`}
       // The inline script below adds `js` before hydration.
       suppressHydrationWarning
     >

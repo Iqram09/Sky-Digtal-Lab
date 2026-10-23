@@ -37,14 +37,14 @@ export default function WorkIndex() {
                 aria-pressed={selected}
                 onClick={() => setActive(filter.id)}
                 className={cn(
-                  "flex shrink-0 items-center gap-2 border px-4 py-2.5 font-mono text-[10px] uppercase tracking-[0.18em] transition-colors",
+                  "label-caps flex shrink-0 items-center gap-2 rounded-full border px-4 py-2.5 text-[11px] transition-colors",
                   selected
-                    ? "border-accent bg-accent text-on-taupe"
+                    ? "border-foreground bg-foreground text-background"
                     : "border-foreground/20 text-muted hover:border-foreground/50 hover:text-foreground"
                 )}
               >
                 {filter.label}
-                <span className={selected ? "text-on-taupe-muted" : "text-subtle"}>
+                <span className={selected ? "text-background/70" : "text-subtle"}>
                   {String(filter.count).padStart(2, "0")}
                 </span>
               </button>

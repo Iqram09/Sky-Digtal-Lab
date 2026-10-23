@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import CutLine from "@/components/brand/CutLine";
+import Glow from "@/components/brand/Glow";
 import ActionButton from "@/components/ui/ActionButton";
 
 export const metadata: Metadata = {
@@ -17,11 +19,14 @@ const shortcuts = [
 
 export default function NotFound() {
   return (
-    <main id="main" className="relative flex min-h-[100dvh] w-full flex-col justify-center overflow-hidden bg-ink pb-20 pt-32">
+    <main id="main" className="surface-light relative flex min-h-[100dvh] w-full flex-col justify-center overflow-hidden bg-background pb-40 pt-32">
+      <Glow tone="mint" drift className="-left-[16rem] -top-[22rem] w-[min(900px,130vw)]" />
+      <Glow tone="lavender" drift className="-bottom-[24rem] -right-[16rem] w-[min(860px,130vw)]" />
+
       <div className="premium-grid relative z-10 w-full px-6 md:px-12">
         <div className="col-span-12 lg:col-span-10">
-          <p className="fade-rise flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-accent">
-            <span aria-hidden className="h-px w-8 bg-accent" />
+          <p className="label-caps fade-rise flex items-center gap-3 text-[11px] text-foreground">
+            <span aria-hidden className="h-px w-8 bg-foreground" />
             Error 404
           </p>
           <h1 className="mt-8 font-display text-[14vw] font-semibold leading-[0.9] tracking-tighter text-foreground sm:text-8xl lg:text-9xl">
@@ -47,7 +52,7 @@ export default function NotFound() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted underline-offset-4 transition-colors hover:text-foreground hover:underline"
+                    className="label-caps text-[11px] text-muted underline-offset-4 transition-colors hover:text-foreground hover:underline"
                   >
                     {item.label}
                   </Link>
@@ -58,12 +63,11 @@ export default function NotFound() {
         </div>
       </div>
 
-      <p
-        aria-hidden
-        className="pointer-events-none absolute -bottom-[0.18em] right-[-0.04em] select-none font-display text-[42vw] font-semibold leading-none tracking-tighter text-foreground/[0.03]"
-      >
-        404
-      </p>
+      <CutLine
+        animate
+        className="inset-x-0 bottom-12 h-20 text-foreground/25 md:bottom-16 md:h-28"
+        starClassName="w-6 text-foreground md:w-7"
+      />
     </main>
   );
 }

@@ -35,10 +35,10 @@ export default async function ContactPage({ searchParams }: PageProps<"/contact"
         <div className="premium-grid w-full gap-y-16 px-6 md:px-12">
           <aside className="col-span-12 lg:col-span-4">
             <div className="lg:sticky lg:top-32">
-              <h2 className="font-mono text-[10px] uppercase tracking-[0.22em] text-subtle">Write to us</h2>
+              <h2 className="label-caps text-[11px] text-subtle">Write to us</h2>
               <a
                 href={`mailto:${site.email}`}
-                className="mt-4 block break-all font-display text-2xl font-semibold tracking-tight text-foreground underline-offset-[6px] transition-colors hover:text-accent hover:underline md:text-3xl"
+                className="mt-4 block break-all font-display text-2xl font-semibold tracking-tight text-foreground underline-offset-[6px] transition-colors hover:text-muted hover:underline md:text-3xl"
               >
                 {site.email}
               </a>
@@ -51,7 +51,7 @@ export default async function ContactPage({ searchParams }: PageProps<"/contact"
                         href={social.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted hover:text-foreground"
+                        className="label-caps text-[11px] text-muted hover:text-foreground"
                       >
                         {social.label}
                       </a>
@@ -60,11 +60,11 @@ export default async function ContactPage({ searchParams }: PageProps<"/contact"
                 </ul>
               ) : null}
 
-              <h2 className="mt-14 font-mono text-[10px] uppercase tracking-[0.22em] text-subtle">What happens next</h2>
+              <h2 className="mt-14 label-caps text-[11px] text-subtle">What happens next</h2>
               <ol className="mt-5 border-t border-foreground/15">
                 {nextSteps.map((step, index) => (
                   <li key={step.title} className="flex gap-5 border-b border-foreground/15 py-5">
-                    <span className="font-mono text-xs text-accent">{String(index + 1).padStart(2, "0")}</span>
+                    <span className="label-caps text-[11px] text-subtle">{String(index + 1).padStart(2, "0")}</span>
                     <span>
                       <span className="block font-display text-lg font-semibold text-foreground">{step.title}</span>
                       <span className="mt-1 block text-sm leading-relaxed text-muted">{step.text}</span>

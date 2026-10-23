@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
+import { useRef, type CSSProperties, type ReactNode } from "react";
+import { useRevealOnce } from "@/lib/useRevealOnce";
 
 type RevealProps = {
   children: ReactNode;
@@ -21,22 +22,7 @@ type RevealProps = {
  */
 export default function Reveal({ children, delay = 0, y = 24, className, as = "div" }: RevealProps) {
   const ref = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const element = ref.current;
-    if (!element) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return;
-        element.dataset.revealed = "";
-        observer.disconnect();
-      },
-      { rootMargin: "0px 0px -80px 0px" }
-    );
-    observer.observe(element);
-    return () => observer.disconnect();
-  }, []);
+  useRevealOnce(ref);
 
   const Tag = as;
   const style = {

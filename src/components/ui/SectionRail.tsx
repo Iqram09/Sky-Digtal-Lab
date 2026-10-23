@@ -5,45 +5,29 @@ type SectionRailProps = {
   label: string;
   sublabel?: string;
   footnote?: string;
-  tone?: "dark" | "light";
   className?: string;
 };
 
 /**
- * The narrow mono column that sits to the left of every section heading.
+ * The narrow column to the left of every section heading, set like the brand
+ * guidelines' own section headers: an underlined number, a caps label and a
+ * quiet descriptor beneath it.
  */
-export default function SectionRail({
-  index,
-  label,
-  sublabel,
-  footnote,
-  tone = "dark",
-  className,
-}: SectionRailProps) {
-  const muted = tone === "dark" ? "text-subtle" : "text-on-taupe-muted";
-
+export default function SectionRail({ index, label, sublabel, footnote, className }: SectionRailProps) {
   return (
-    <div
-      className={cn(
-        "col-span-12 flex justify-between md:col-span-3 md:block",
-        className
-      )}
-    >
-      <p className="font-mono text-xs uppercase tracking-widest">
-        <span className={tone === "dark" ? "block text-accent" : "block text-on-taupe"}>
-          {index} / {label}
+    <div className={cn("col-span-12 flex items-start justify-between gap-6 md:col-span-3 md:block", className)}>
+      <div className="flex items-start gap-5">
+        <span className="label-caps shrink-0 text-[11px] text-foreground">
+          {index}
+          <span aria-hidden className="mt-2 block h-px w-full min-w-6 bg-foreground" />
         </span>
-        {sublabel ? <span className={cn("mt-2 block", muted)}>{sublabel}</span> : null}
-      </p>
+        <p>
+          <span className="label-caps block text-[11px] text-foreground">{label}</span>
+          {sublabel ? <span className="mt-1.5 block text-sm text-subtle">{sublabel}</span> : null}
+        </p>
+      </div>
       {footnote ? (
-        <span
-          className={cn(
-            "font-mono text-xs uppercase tracking-widest md:mt-24 md:block",
-            muted
-          )}
-        >
-          {footnote}
-        </span>
+        <span className="label-caps shrink-0 text-[11px] text-subtle md:mt-24 md:block">{footnote}</span>
       ) : null}
     </div>
   );

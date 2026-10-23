@@ -14,7 +14,7 @@ export default function PhoneFrame({ src, alt, width, height, className }: Phone
   return (
     <figure
       className={cn(
-        "relative overflow-hidden rounded-[2.2rem] border border-foreground/15 bg-ink p-2 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.9)]",
+        "relative overflow-hidden rounded-[2.2rem] border border-charcoal/20 bg-charcoal p-2 shadow-[0_30px_80px_-40px_rgba(16,16,20,0.8)]",
         className
       )}
     >

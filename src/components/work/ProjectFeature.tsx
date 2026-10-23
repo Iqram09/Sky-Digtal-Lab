@@ -70,16 +70,16 @@ export default function ProjectFeature({
           className="group relative block"
         >
           <div
-            className="relative overflow-hidden rounded-[14px] px-4 pb-4 pt-12 sm:px-6 sm:pb-6 md:px-10 md:pb-10 md:pt-14"
+            className="relative overflow-hidden rounded-[20px] px-4 pb-4 pt-12 sm:px-6 sm:pb-6 md:px-10 md:pb-10 md:pt-14"
             style={brandPanelStyle(project)}
           >
             <span
-              className="absolute left-4 top-4 font-mono text-[10px] uppercase tracking-[0.22em] sm:left-6 md:left-10 md:top-5"
+              className="absolute left-4 top-4 label-caps text-[11px] sm:left-6 md:left-10 md:top-5"
               style={{ color: project.theme.accent }}
             >
               {project.theme.mood}
             </span>
-            <span className="absolute right-4 top-4 font-mono text-[10px] uppercase tracking-[0.22em] text-white/60 sm:right-6 md:right-10 md:top-5">
+            <span className="absolute right-4 top-4 label-caps text-[11px] text-white/60 sm:right-6 md:right-10 md:top-5">
               {project.displayUrl}
             </span>
 
@@ -118,35 +118,35 @@ export default function ProjectFeature({
 
       <Wrap delay={0.08} className={cn("col-span-12 lg:col-span-5", reverse && "lg:order-1")}>
         <div className="flex items-baseline justify-between gap-4 border-b border-foreground/15 pb-4">
-          <span className="font-mono text-xs text-accent">{number}</span>
-          <span className="text-right font-mono text-[10px] uppercase tracking-[0.18em] text-subtle">
+          <span className="label-caps text-[11px] text-foreground">{number}</span>
+          <span className="text-right label-caps text-[11px] text-subtle">
             {project.industry}
           </span>
         </div>
 
         <div className="mt-8 flex h-10 items-center">
-          <ClientLogo project={project} tone="light" height={project.logo.kind === "take-solution" ? 34 : 36} />
+          <ClientLogo project={project} tone="dark" height={project.logo.kind === "take-solution" ? 34 : 36} />
         </div>
 
         <Heading className="mt-6 font-display text-2xl font-semibold leading-tight tracking-tight text-foreground text-balance md:text-3xl">
-          <Link href={`/work/${project.slug}`} className="transition-colors hover:text-accent" data-cursor="link">
+          <Link href={`/work/${project.slug}`} className="transition-colors hover:text-muted" data-cursor="link">
             {project.headline}
           </Link>
         </Heading>
-        <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.18em] text-subtle">
+        <p className="mt-3 label-caps text-[11px] text-subtle">
           {project.projectType}
         </p>
         <p className="mt-5 text-base leading-relaxed text-muted">{project.summary}</p>
 
         <dl className="mt-8 grid gap-5">
           <div>
-            <dt className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-subtle">Deliverables</dt>
+            <dt className="mb-2 label-caps text-[11px] text-subtle">Deliverables</dt>
             <dd>
               <ul className="flex flex-wrap gap-1.5">
                 {project.deliverables.map((item) => (
                   <li
                     key={item}
-                    className="border border-foreground/15 px-2.5 py-1.5 font-mono text-[10px] uppercase tracking-wider text-muted"
+                    className="rounded-full border border-foreground/15 bg-panel px-3 py-1.5 text-xs font-medium text-muted"
                   >
                     {item}
                   </li>
@@ -155,8 +155,8 @@ export default function ProjectFeature({
             </dd>
           </div>
           <div>
-            <dt className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-subtle">Built with</dt>
-            <dd className="font-mono text-[11px] uppercase tracking-widest text-muted">
+            <dt className="mb-2 label-caps text-[11px] text-subtle">Built with</dt>
+            <dd className="text-sm text-muted">
               {project.technologies.join(" / ")}
             </dd>
           </div>

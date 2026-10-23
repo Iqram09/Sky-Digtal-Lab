@@ -2,10 +2,11 @@
 
 import type { MouseEvent, ReactNode } from "react";
 import Link from "next/link";
+import { useMagnetic } from "@/lib/useMagnetic";
 import { useScrollTo } from "@/lib/useScrollTo";
 import { cn } from "@/lib/utils";
 
-type Variant = "primary" | "ghost" | "ghostLight" | "solidDark";
+type Variant = "primary" | "ghost";
 
 type ActionButtonProps = {
   children: ReactNode;
@@ -20,29 +21,22 @@ type ActionButtonProps = {
 };
 
 const base =
-  "group relative inline-flex items-center gap-3 overflow-hidden border px-6 py-4 font-mono text-[11px] uppercase tracking-[0.2em] transition-colors duration-300 md:px-7";
+  "label-caps group relative inline-flex items-center gap-3 overflow-hidden rounded-full border px-6 py-4 text-[11px] transition-[color,background-color,border-color,translate] duration-300 ease-out md:px-7";
 
+/*
+ * Both variants are written in surface tokens, so they invert on their own:
+ * charcoal on off-white, off-white on charcoal.
+ */
 const variants: Record<Variant, { shell: string; sweep: string; text: string }> = {
   primary: {
-    shell: "border-accent bg-accent text-on-taupe",
-    sweep: "bg-foreground",
-    text: "group-hover:text-on-taupe",
+    shell: "border-foreground bg-foreground text-background",
+    sweep: "bg-muted",
+    text: "group-hover:text-background",
   },
   ghost: {
-    shell: "border-foreground/25 text-foreground hover:border-accent",
-    sweep: "bg-accent",
-    text: "group-hover:text-on-taupe",
-  },
-  ghostLight: {
-    shell: "border-on-taupe/30 text-on-taupe hover:border-on-taupe",
-    sweep: "bg-on-taupe",
-    text: "group-hover:text-foreground",
-  },
-  /** Primary action on taupe sections. */
-  solidDark: {
-    shell: "border-on-taupe bg-on-taupe text-foreground",
+    shell: "border-foreground/25 text-foreground hover:border-foreground",
     sweep: "bg-foreground",
-    text: "group-hover:text-on-taupe",
+    text: "group-hover:text-background",
   },
 };
 
@@ -58,6 +52,8 @@ export default function ActionButton({
   arrow = true,
 }: ActionButtonProps) {
   const scrollTo = useScrollTo();
+  // The pill leans toward the pointer while hovered.
+  const magnetic = useMagnetic<HTMLAnchorElement>();
   const style = variants[variant];
   const external = isExternal(href);
 
@@ -101,6 +97,7 @@ export default function ActionButton({
         }}
         data-cursor="link"
         className={classes}
+        {...magnetic}
       >
         {content}
       </a>
@@ -114,6 +111,7 @@ export default function ActionButton({
         {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
         data-cursor="link"
         className={classes}
+        {...magnetic}
       >
         {content}
       </a>
@@ -121,7 +119,7 @@ export default function ActionButton({
   }
 
   return (
-    <Link href={href} data-cursor="link" className={classes}>
+    <Link href={href} data-cursor="link" className={classes} {...magnetic}>
       {content}
     </Link>
   );
