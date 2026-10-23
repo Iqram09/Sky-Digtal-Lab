@@ -34,7 +34,7 @@ export default function BrowserFrame({
   const frame = (
     <div
       className={cn(
-        "overflow-hidden rounded-[10px] border border-foreground/12 bg-ink shadow-[0_30px_80px_-40px_rgba(0,0,0,0.8)]",
+        "surface-dark overflow-hidden rounded-[12px] border border-foreground/12 bg-panel shadow-[0_30px_80px_-40px_rgba(16,16,20,0.7)]",
         className
       )}
     >
@@ -44,7 +44,7 @@ export default function BrowserFrame({
           <span className="h-2 w-2 rounded-full bg-foreground/20" />
           <span className="h-2 w-2 rounded-full bg-foreground/20" />
         </span>
-        <span className="mx-auto max-w-[60%] truncate rounded-full bg-foreground/[0.06] px-4 py-1 font-mono text-[10px] tracking-wider text-subtle">
+        <span className="mx-auto max-w-[60%] truncate rounded-full bg-foreground/[0.06] px-4 py-1 text-[11px] font-medium tracking-wide text-subtle">
           {url}
         </span>
         <span className="w-[42px]" />
@@ -68,7 +68,7 @@ export default function BrowserFrame({
   return (
     <figure>
       {frame}
-      <figcaption className="mt-4 max-w-xl font-mono text-[11px] leading-relaxed tracking-wide text-subtle">
+      <figcaption className="mt-4 max-w-xl text-sm leading-relaxed text-subtle">
         {caption}
       </figcaption>
     </figure>

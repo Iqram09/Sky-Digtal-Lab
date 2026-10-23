@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Glow from "@/components/brand/Glow";
 import ClientLogo from "@/components/ui/ClientLogo";
 import Reveal from "@/components/ui/Reveal";
 import SectionRail from "@/components/ui/SectionRail";
@@ -15,8 +16,10 @@ import { cn } from "@/lib/utils";
  */
 export default function BrandShowcase() {
   return (
-    <section aria-labelledby="brands-title" className="relative w-full border-t border-foreground/10 bg-ink py-24 md:py-36">
-      <div className="premium-grid w-full px-6 md:px-12">
+    <section aria-labelledby="brands-title" className="surface-dark relative w-full overflow-hidden bg-background py-24 md:py-36">
+      <Glow tone="lavender" className="-right-[22rem] -top-[20rem] w-[min(820px,130vw)]" />
+
+      <div className="premium-grid relative z-10 w-full px-6 md:px-12">
         <SectionRail index="02" label="Clients" sublabel="Brands & clients" />
         <div className="col-span-12 mt-12 md:col-span-9 md:col-start-4 md:mt-0 lg:col-span-8 lg:col-start-5">
           <SectionTitle
@@ -28,10 +31,10 @@ export default function BrandShowcase() {
         </div>
       </div>
 
-      <ul className="grid gap-6 px-6 md:px-12 lg:grid-cols-3">
+      <ul className="relative z-10 grid gap-6 px-6 md:px-12 lg:grid-cols-3">
         {projects.map((project, index) => (
           <Reveal as="li" key={project.slug} delay={index * 0.08}>
-            <article className="flex h-full flex-col overflow-hidden rounded-[14px] border border-foreground/10">
+            <article className="flex h-full flex-col overflow-hidden rounded-[20px] border border-foreground/10">
               <div className="relative flex h-[340px] flex-col justify-between overflow-hidden p-6 md:h-[400px] md:p-8" style={brandPanelStyle(project)}>
                 <div className="relative z-10 flex h-11 items-center">
                   <ClientLogo project={project} tone="light" height={project.logo.kind === "take-solution" ? 34 : 38} />
@@ -54,7 +57,7 @@ export default function BrandShowcase() {
                   />
                 </div>
                 <span
-                  className="relative z-10 max-w-[45%] font-mono text-[10px] uppercase leading-relaxed tracking-[0.2em]"
+                  className="label-caps relative z-10 max-w-[45%] text-[11px] leading-relaxed"
                   style={{ color: project.theme.accent }}
                 >
                   {project.theme.mood}

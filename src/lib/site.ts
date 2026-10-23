@@ -16,7 +16,8 @@ function resolveSiteUrl() {
 export const site = {
   name: "Sky Digital Lab",
   shortName: "Sky Digital Lab",
-  tagline: "Think clearly. Build intelligently. Deliver what we promise.",
+  /** The brand tagline, as set beneath the logo. */
+  tagline: "Creative Thinking. Digital Engineering.",
   description:
     "Sky Digital Lab is a digital studio that brings strategy, design and engineering together to build websites, web applications and software that help businesses move forward.",
   url: resolveSiteUrl(),

@@ -1,8 +1,11 @@
 import type { ReactNode } from "react";
+import CutLine from "@/components/brand/CutLine";
+import Glow from "@/components/brand/Glow";
+import PointerParallax from "@/components/brand/PointerParallax";
 import { cn } from "@/lib/utils";
 
 type PageHeaderProps = {
-  /** e.g. "About" — shown in the mono eyebrow. */
+  /** e.g. "About" — shown in the caps eyebrow. */
   eyebrow: string;
   title: ReactNode;
   intro?: ReactNode;
@@ -11,25 +14,33 @@ type PageHeaderProps = {
 };
 
 /**
- * Opening block for every inner page: mono eyebrow, display headline and a
- * short introduction. Renders without client JS, so the LCP text paints
- * immediately — motion comes from the shared CSS entrance only.
+ * Opening block for every inner page: off-white ground with soft mint and
+ * lavender glows, a caps eyebrow, the display headline and a short
+ * introduction, closed off by the cut line. Renders without client JS, so the
+ * LCP text paints immediately — motion comes from the shared CSS entrance only.
  */
 export default function PageHeader({ eyebrow, title, intro, children, className }: PageHeaderProps) {
   return (
     <header
       className={cn(
-        "relative w-full overflow-hidden border-b border-foreground/10 bg-ink pb-16 pt-36 md:pb-24 md:pt-48",
+        "surface-light relative w-full overflow-hidden bg-background pb-32 pt-36 md:pb-44 md:pt-48",
         className
       )}
     >
+      <PointerParallax depth={36}>
+        <Glow tone="mint" drift className="-top-[22rem] left-[30%] w-[min(900px,120vw)]" />
+      </PointerParallax>
+      <PointerParallax depth={-28}>
+        <Glow tone="lavender" drift className="-right-[14rem] -top-[8rem] w-[min(640px,100vw)]" />
+      </PointerParallax>
+
       <div className="premium-grid relative z-10 w-full px-6 md:px-12">
         <div className="col-span-12 lg:col-span-10">
-          <p className="fade-rise mb-8 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-accent">
-            <span aria-hidden className="h-px w-8 bg-accent" />
+          <p className="label-caps fade-rise mb-8 flex items-center gap-3 text-[11px] text-foreground">
+            <span aria-hidden className="h-px w-8 bg-foreground" />
             {eyebrow}
           </p>
-          <h1 className="font-display text-[12vw] font-semibold leading-[0.95] tracking-tighter text-foreground text-balance sm:text-6xl md:text-7xl lg:text-8xl">
+          <h1 className="font-display text-[12vw] font-semibold leading-[0.98] tracking-tighter text-foreground text-balance sm:text-6xl md:text-7xl lg:text-8xl">
             <span className="line-mask">
               <span className="line-rise">{title}</span>
             </span>
@@ -50,12 +61,12 @@ export default function PageHeader({ eyebrow, title, intro, children, className 
         </div>
       </div>
 
-      {/* Construction grid — the only ornament */}
-      <div aria-hidden className="premium-grid pointer-events-none absolute inset-0 px-6 md:px-12">
-        {Array.from({ length: 12 }).map((_, i) => (
-          <div key={i} className="h-full border-l border-foreground/[0.035]" />
-        ))}
-      </div>
+      {/* The cut line divides the header from the page and leads the eye on. */}
+      <CutLine
+        animate
+        className="inset-x-0 bottom-10 h-16 text-foreground/25 md:bottom-14 md:h-24"
+        starClassName="w-5 text-foreground md:w-6"
+      />
     </header>
   );
 }

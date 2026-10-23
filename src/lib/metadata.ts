@@ -22,7 +22,7 @@ export function pageMetadata({ title, description, path, image }: PageMetadataIn
     url: "/opengraph-image",
     width: 1200,
     height: 630,
-    alt: `${site.name} — Digital ideas. Engineered into reality.`,
+    alt: `${site.name} — ${site.tagline}`,
   };
 
   return {

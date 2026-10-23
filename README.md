@@ -2,7 +2,7 @@
 
 The website for Sky Digital Lab, a digital studio for websites, applications and software.
 Built with Next.js 16 (App Router, Turbopack), React 19, Tailwind CSS 4, Framer Motion,
-GSAP, Lenis and a small three.js scene in the home page hero.
+GSAP and Lenis, and designed to the Sky Digital Lab Brand Guidelines (v1.0, 2026).
 
 ## Getting started
 
@@ -26,6 +26,31 @@ npm run lint
 | `/contact` | Project enquiry form (`/contact?type=<service-slug>` preselects a service) |
 
 Unknown routes render the custom 404 in `src/app/not-found.tsx`.
+
+## Brand
+
+The look follows the brand guidelines; please keep to them when adding pages.
+
+- **Logo** — always the supplied artwork in `public/brand/`, rendered through `src/components/brand/Logo.tsx`.
+  Only charcoal ("black") or white versions; never retype, recolour, outline or stretch it. The header uses the
+  horizontal logo (min. 200px wide), the footer the primary logo. Favicon, Apple icon and `icon.svg` in `src/app/`
+  are made from the dark app icon.
+- **Colour** — roughly 60% off-white `#F3F2F0`, 30% charcoal `#101014`, 10% accents. Mint `#BDE7D9` and lavender
+  `#C9B8FF` are for soft glows and highlights only, never for the logo or body text.
+- **Surfaces** — colour tokens (`background`, `foreground`, `panel`, `muted`, `subtle`) are light by default. Add
+  `surface-dark` to a section to flip them to charcoal; `surface-mint` / `surface-lavender` make accent cards. The
+  header reads the surface under it and switches between the black and white logo by itself.
+- **Type** — Manrope only. Headings SemiBold with slightly tight tracking; labels use the `label-caps` utility
+  (Medium, caps, wide spacing).
+- **Brand elements** — `Star` (one at a time, never a pattern), `Glow` (large mint/lavender circles at the edges of
+  a layout) and `CutLine` (the slanted cut from the wordmark, used to divide space), all in `src/components/brand/`.
+- **Motion** — `CutLine animate` draws the line, glides the star up it and sends a beam of light along it every
+  9s (the star flares as it passes; timings shared between `CutLine.tsx` and `globals.css`). Glows follow the
+  pointer through `PointerParallax`, plain-text section titles rise word by word (`SplitText`), primary buttons
+  lean toward the cursor (`useMagnetic`) and the header shows reading progress. Everything respects
+  `prefers-reduced-motion`.
+- The share card (`src/app/opengraph-image.tsx`) embeds the white primary logo and renders labels with
+  `assets/fonts/manrope-latin-500-normal.woff`.
 
 ## Editing content
 

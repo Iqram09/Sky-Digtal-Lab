@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Glow from "@/components/brand/Glow";
 import ActionButton from "@/components/ui/ActionButton";
 import Accordion from "@/components/ui/Accordion";
 import PageHeader from "@/components/ui/PageHeader";
@@ -46,7 +47,7 @@ export default function ServicesPage() {
               <li key={service.slug}>
                 <a
                   href={`#${service.slug}`}
-                  className="inline-block border border-foreground/20 px-3 py-2 font-mono text-[10px] uppercase tracking-widest text-muted transition-colors hover:border-accent hover:text-accent"
+                  className="label-caps inline-block rounded-full border border-foreground/20 bg-panel/60 px-4 py-2 text-[11px] text-muted transition-colors hover:border-foreground hover:text-foreground"
                 >
                   {service.title}
                 </a>
@@ -57,25 +58,27 @@ export default function ServicesPage() {
       </PageHeader>
 
       {/* Starting points */}
-      <section className="on-light relative w-full overflow-hidden bg-taupe py-24 text-on-taupe md:py-32">
+      <section className="surface-dark relative w-full overflow-hidden bg-background py-24 md:py-32">
+        <Glow tone="mint" className="-left-[22rem] -top-[20rem] w-[min(820px,130vw)]" />
+
         <div className="premium-grid relative z-10 w-full px-6 md:px-12">
-          <SectionRail index="01" label="Starting points" sublabel="Common briefs" tone="light" footnote="Pick the closest" />
+          <SectionRail index="01" label="Starting points" sublabel="Common briefs" footnote="Pick the closest" />
           <div className="col-span-12 mt-12 md:col-span-9 md:col-start-4 md:mt-0 lg:col-span-8 lg:col-start-5">
-            <SectionTitle tone="light" size="display">
+            <SectionTitle size="display">
               What are you trying to solve?
             </SectionTitle>
-            <ul className="border-t border-on-taupe/20">
+            <ul className="border-t border-foreground/15">
               {problems.map((problem) => (
                 <li key={problem.number}>
                   <a
                     href={`#${problem.service}`}
-                    className="group grid grid-cols-[36px_1fr] items-baseline gap-x-4 gap-y-2 border-b border-on-taupe/20 py-6 transition-colors md:grid-cols-[56px_1fr_auto] md:gap-x-8"
+                    className="group grid grid-cols-[36px_1fr] items-baseline gap-x-4 gap-y-2 border-b border-foreground/15 py-6 transition-colors md:grid-cols-[56px_1fr_auto] md:gap-x-8"
                   >
-                    <span className="font-mono text-xs text-on-taupe-muted">{problem.number}</span>
+                    <span className="label-caps text-[11px] text-subtle">{problem.number}</span>
                     <span className="font-display text-xl font-semibold tracking-tight transition-transform duration-500 group-hover:translate-x-1 motion-reduce:transition-none md:text-3xl">
                       “{problem.statement}”
                     </span>
-                    <span className="col-start-2 font-mono text-[10px] uppercase tracking-[0.2em] text-on-taupe-muted md:col-start-3 md:text-right">
+                    <span className="label-caps col-start-2 text-[11px] text-subtle transition-colors group-hover:text-foreground md:col-start-3 md:text-right">
                       {problem.answer} <span aria-hidden>↓</span>
                     </span>
                   </a>
@@ -93,11 +96,11 @@ export default function ServicesPage() {
             key={service.slug}
             id={service.slug}
             aria-labelledby={`${service.slug}-title`}
-            className={index % 2 === 0 ? "w-full bg-background py-20 md:py-28" : "w-full bg-panel py-20 md:py-28"}
+            className={index % 2 === 0 ? "w-full bg-background py-20 md:py-28" : "w-full border-y border-foreground/10 bg-panel py-20 md:py-28"}
           >
             <div className="premium-grid w-full gap-y-10 px-6 md:px-12">
               <div className="col-span-12 md:col-span-3">
-                <p className="font-mono text-xs uppercase tracking-widest text-accent">
+                <p className="label-caps text-[11px] text-foreground">
                   {service.number} / {String(services.length).padStart(2, "0")}
                 </p>
               </div>
@@ -116,27 +119,27 @@ export default function ServicesPage() {
 
                 <div className="mt-12 grid gap-10 border-t border-foreground/15 pt-10 md:grid-cols-2 md:gap-12">
                   <Reveal delay={0.05}>
-                    <h3 className="mb-5 font-mono text-[10px] uppercase tracking-[0.22em] text-subtle">
+                    <h3 className="mb-5 label-caps text-[11px] text-subtle">
                       Problems it solves
                     </h3>
                     <ul className="flex flex-col gap-4">
                       {service.problems.map((problem) => (
                         <li key={problem} className="flex gap-3 text-base leading-relaxed text-foreground/90">
-                          <span aria-hidden className="mt-[0.6em] h-px w-4 shrink-0 bg-accent" />
+                          <span aria-hidden className="mt-[0.7em] h-px w-4 shrink-0 bg-foreground/50" />
                           {problem}
                         </li>
                       ))}
                     </ul>
                   </Reveal>
                   <Reveal delay={0.1}>
-                    <h3 className="mb-5 font-mono text-[10px] uppercase tracking-[0.22em] text-subtle">
+                    <h3 className="mb-5 label-caps text-[11px] text-subtle">
                       Typical deliverables
                     </h3>
                     <ul className="flex flex-wrap gap-2">
                       {service.deliverables.map((item) => (
                         <li
                           key={item}
-                          className="border border-foreground/20 px-3 py-2 font-mono text-[10px] uppercase tracking-widest text-muted"
+                          className="rounded-full border border-foreground/15 px-3 py-1.5 text-xs font-medium text-muted"
                         >
                           {item}
                         </li>
@@ -157,8 +160,10 @@ export default function ServicesPage() {
       </div>
 
       {/* Technology */}
-      <section className="relative w-full border-t border-foreground/10 bg-ink py-24 md:py-32">
-        <div className="premium-grid w-full px-6 md:px-12">
+      <section className="surface-dark relative w-full overflow-hidden bg-background py-24 md:py-32">
+        <Glow tone="lavender" className="-bottom-[22rem] -right-[20rem] w-[min(820px,130vw)]" />
+
+        <div className="premium-grid relative z-10 w-full px-6 md:px-12">
           <SectionRail index="02" label="Stack" sublabel="Technology" footnote="Chosen per problem" />
           <div className="col-span-12 mt-12 md:col-span-9 md:col-start-4 md:mt-0 lg:col-span-8 lg:col-start-5">
             <SectionTitle description="We choose technology for the problem in front of us, favouring tools that are well supported, maintainable and right-sized for the project.">
@@ -172,8 +177,8 @@ export default function ServicesPage() {
                   className="grid grid-cols-1 gap-4 border-b border-foreground/15 py-7 md:grid-cols-[220px_1fr] md:gap-10"
                 >
                   <dt className="flex items-baseline gap-4">
-                    <span className="font-mono text-xs text-accent">{category.number}</span>
-                    <span className="font-mono text-sm uppercase tracking-[0.18em] text-foreground">{category.title}</span>
+                    <span className="label-caps text-[11px] text-subtle">{category.number}</span>
+                    <span className="label-caps text-xs text-foreground">{category.title}</span>
                   </dt>
                   <dd className="flex flex-wrap gap-x-6 gap-y-2 text-lg text-muted md:text-xl">
                     {category.items.map((item) => (
@@ -196,7 +201,7 @@ export default function ServicesPage() {
             <Accordion items={faqs} />
             <p className="mt-10 text-base text-muted">
               Something else on your mind?{" "}
-              <Link href="/contact" className="text-foreground underline underline-offset-4 transition-colors hover:text-accent">
+              <Link href="/contact" className="text-foreground underline underline-offset-4 transition-colors hover:text-muted">
                 Ask us directly
               </Link>
               .

@@ -5,6 +5,50 @@ import { motion, useMotionValue, useSpring } from "framer-motion";
 
 type CursorState = "DEFAULT" | "LINK" | "PROJECT" | "DRAG";
 
+/*
+ * The dot and ring use a difference blend, so they read as charcoal on
+ * off-white and as off-white on charcoal. Over a project the cursor becomes a
+ * mint highlight with a charcoal label (an approved combination).
+ */
+const variants = {
+  DEFAULT: {
+    width: 10,
+    height: 10,
+    backgroundColor: "rgba(255, 255, 255, 1)",
+    borderColor: "rgba(255, 255, 255, 0)",
+    mixBlendMode: "difference" as const,
+    x: "-50%",
+    y: "-50%",
+  },
+  LINK: {
+    width: 44,
+    height: 44,
+    backgroundColor: "rgba(255, 255, 255, 0)",
+    borderColor: "rgba(255, 255, 255, 1)",
+    mixBlendMode: "difference" as const,
+    x: "-50%",
+    y: "-50%",
+  },
+  PROJECT: {
+    width: 104,
+    height: 104,
+    backgroundColor: "rgba(189, 231, 217, 1)",
+    borderColor: "rgba(189, 231, 217, 0)",
+    mixBlendMode: "normal" as const,
+    x: "-50%",
+    y: "-50%",
+  },
+  DRAG: {
+    width: 104,
+    height: 104,
+    backgroundColor: "rgba(201, 184, 255, 1)",
+    borderColor: "rgba(201, 184, 255, 0)",
+    mixBlendMode: "normal" as const,
+    x: "-50%",
+    y: "-50%",
+  },
+};
+
 export default function CustomCursor() {
   const [cursorState, setCursorState] = useState<CursorState>("DEFAULT");
   const [isVisible, setIsVisible] = useState(false);
@@ -38,13 +82,13 @@ export default function CustomCursor() {
     // Add global event delegation for hover states
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      
-      if (target.closest("a, button, [data-cursor='link']")) {
-        setCursorState("LINK");
-      } else if (target.closest("[data-cursor='project']")) {
+
+      if (target.closest("[data-cursor='project']")) {
         setCursorState("PROJECT");
       } else if (target.closest("[data-cursor='drag']")) {
         setCursorState("DRAG");
+      } else if (target.closest("a, button, [data-cursor='link']")) {
+        setCursorState("LINK");
       } else {
         setCursorState("DEFAULT");
       }
@@ -62,46 +106,11 @@ export default function CustomCursor() {
 
   if (!isVisible) return null;
 
-  const variants = {
-    DEFAULT: {
-      width: 12,
-      height: 12,
-      backgroundColor: "rgba(255, 255, 255, 1)",
-      mixBlendMode: "difference" as const,
-      x: "-50%",
-      y: "-50%",
-    },
-    LINK: {
-      width: 48,
-      height: 48,
-      backgroundColor: "rgba(255, 255, 255, 0.1)",
-      border: "1px solid rgba(255,255,255,0.5)",
-      backdropFilter: "blur(4px)",
-      mixBlendMode: "normal" as const,
-      x: "-50%",
-      y: "-50%",
-    },
-    PROJECT: {
-      width: 120,
-      height: 120,
-      backgroundColor: "rgba(255, 255, 255, 1)",
-      mixBlendMode: "difference" as const,
-      x: "-50%",
-      y: "-50%",
-    },
-    DRAG: {
-      width: 120,
-      height: 120,
-      backgroundColor: "rgba(255, 255, 255, 1)",
-      mixBlendMode: "difference" as const,
-      x: "-50%",
-      y: "-50%",
-    }
-  };
+  const labelled = cursorState === "PROJECT" || cursorState === "DRAG";
 
   return (
     <motion.div
-      className="fixed top-0 left-0 z-[9999] pointer-events-none rounded-full flex items-center justify-center overflow-hidden"
+      className="pointer-events-none fixed left-0 top-0 z-[9999] flex items-center justify-center overflow-hidden rounded-full border"
       style={{
         x: cursorX,
         y: cursorY,
@@ -113,14 +122,11 @@ export default function CustomCursor() {
     >
       <motion.div
         initial={{ opacity: 0, scale: 0 }}
-        animate={{ 
-          opacity: cursorState === "PROJECT" || cursorState === "DRAG" ? 1 : 0,
-          scale: cursorState === "PROJECT" || cursorState === "DRAG" ? 1 : 0
-        }}
-        className="text-black text-xs font-mono font-bold tracking-widest whitespace-nowrap"
+        animate={{ opacity: labelled ? 1 : 0, scale: labelled ? 1 : 0 }}
+        className="label-caps whitespace-nowrap text-[11px] text-charcoal"
       >
-        {cursorState === "PROJECT" && "VIEW ↗"}
-        {cursorState === "DRAG" && "DRAG →"}
+        {cursorState === "PROJECT" && "View ↗"}
+        {cursorState === "DRAG" && "Drag →"}
       </motion.div>
     </motion.div>
   );

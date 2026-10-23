@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import Glow from "@/components/brand/Glow";
 import ActionButton from "@/components/ui/ActionButton";
 import BrowserFrame from "@/components/ui/BrowserFrame";
 import ClientLogo from "@/components/ui/ClientLogo";
@@ -102,18 +103,21 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
   return (
     <main id="main" style={brand}>
       {/* Header */}
-      <header className="relative w-full overflow-hidden bg-ink pb-16 pt-32 md:pb-20 md:pt-44">
+      <header className="surface-light relative w-full overflow-hidden bg-background pb-16 pt-32 md:pb-20 md:pt-44">
+        <Glow tone="mint" drift className="-top-[24rem] left-[25%] w-[min(900px,130vw)]" />
+        <Glow tone="lavender" drift className="-right-[18rem] -top-[10rem] w-[min(640px,110vw)]" />
+
         <div className="premium-grid relative z-10 w-full gap-y-12 px-6 md:px-12">
           <div className="col-span-12 lg:col-span-7">
             <nav aria-label="Breadcrumb" className="fade-rise">
-              <ol className="flex flex-wrap items-center gap-2 font-mono text-[11px] uppercase tracking-[0.2em] text-subtle">
+              <ol className="label-caps flex flex-wrap items-center gap-2 text-[11px] text-subtle">
                 <li>
                   <Link href="/work" className="transition-colors hover:text-foreground">
                     Our Work
                   </Link>
                 </li>
                 <li aria-hidden>/</li>
-                <li aria-current="page" className="text-(--brand)">
+                <li aria-current="page" className="text-foreground">
                   {project.client}
                 </li>
               </ol>
@@ -142,12 +146,12 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
           </div>
 
           <dl
-            className="fade-rise col-span-12 grid grid-cols-2 gap-px self-end border border-foreground/12 bg-foreground/12 lg:col-span-4 lg:col-start-9 lg:grid-cols-1"
+            className="fade-rise col-span-12 grid grid-cols-2 gap-px self-end overflow-hidden rounded-[20px] border border-foreground/10 bg-foreground/10 lg:col-span-4 lg:col-start-9 lg:grid-cols-1"
             style={{ animationDelay: "0.3s" }}
           >
             {facts.map((fact) => (
-              <div key={fact.label} className="bg-ink p-4 md:p-5">
-                <dt className="font-mono text-[10px] uppercase tracking-[0.22em] text-subtle">{fact.label}</dt>
+              <div key={fact.label} className="bg-panel p-4 md:p-5">
+                <dt className="label-caps text-[11px] text-subtle">{fact.label}</dt>
                 <dd className="mt-2 text-sm leading-snug text-foreground md:text-base">{fact.value}</dd>
               </div>
             ))}
@@ -156,12 +160,12 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
       </header>
 
       {/* Hero visual on the client's own ground */}
-      <section aria-label={`${project.client} website`} className="w-full bg-ink px-6 pb-20 md:px-12 md:pb-28">
-        <div className="relative overflow-hidden rounded-[16px] px-4 pb-4 pt-20 sm:px-8 sm:pb-8 md:px-16 md:pb-16 md:pt-24" style={brandPanelStyle(project)}>
+      <section aria-label={`${project.client} website`} className="w-full bg-background px-6 pb-20 md:px-12 md:pb-28">
+        <div className="relative overflow-hidden rounded-[24px] px-4 pb-4 pt-20 sm:px-8 sm:pb-8 md:px-16 md:pb-16 md:pt-24" style={brandPanelStyle(project)}>
           <div className="absolute left-4 top-6 sm:left-8 md:left-16 md:top-8">
             <ClientLogo project={project} tone="light" height={project.logo.kind === "take-solution" ? 30 : 34} />
           </div>
-          <span className="absolute right-4 top-8 hidden font-mono text-[10px] uppercase tracking-[0.22em] text-(--brand) sm:right-8 sm:block md:right-16 md:top-10">
+          <span className="label-caps absolute right-4 top-8 hidden text-[11px] text-(--brand) sm:right-8 sm:block md:right-16 md:top-10">
             {project.theme.mood}
           </span>
           <BrowserFrame
@@ -186,19 +190,19 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
             ))}
           </div>
           <Reveal delay={0.1}>
-            <aside className="border-l-2 border-(--brand) pl-6">
-              <h3 className="font-mono text-[10px] uppercase tracking-[0.22em] text-subtle">About the client</h3>
+            <aside className="rounded-[20px] border border-foreground/10 bg-panel p-6">
+              <h3 className="label-caps text-[11px] text-subtle">About the client</h3>
               <p className="mt-3 text-base leading-relaxed text-foreground/90">{project.clientBackground}</p>
             </aside>
           </Reveal>
         </div>
       </Section>
 
-      <Section index="02" label="Brief" sublabel="Requirements" title="What the website had to do" className="bg-ink">
-        <ol className="grid gap-px border border-foreground/12 bg-foreground/12 md:grid-cols-2">
+      <Section index="02" label="Brief" sublabel="Requirements" title="What the website had to do" className="surface-dark bg-background">
+        <ol className="grid gap-4 md:grid-cols-2">
           {project.requirements.map((requirement, index) => (
-            <Reveal as="li" key={requirement.title} delay={(index % 2) * 0.06} className="bg-ink p-6 md:p-8 md:[&:last-child:nth-child(odd)]:col-span-2">
-              <span className="font-mono text-xs text-(--brand)">{String(index + 1).padStart(2, "0")}</span>
+            <Reveal as="li" key={requirement.title} delay={(index % 2) * 0.06} className="rounded-[20px] border border-foreground/10 bg-panel p-6 md:p-8 md:[&:last-child:nth-child(odd)]:col-span-2">
+              <span className="label-caps text-[11px] text-subtle">{String(index + 1).padStart(2, "0")}</span>
               <h3 className="mt-4 font-display text-xl font-semibold tracking-tight text-foreground md:text-2xl">
                 {requirement.title}
               </h3>
@@ -211,7 +215,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
       <Section index="03" label="Structure" sublabel="Site map & journeys" title="Structure and user journeys">
         <div className="grid gap-16 xl:grid-cols-2">
           <Reveal>
-            <h3 className="mb-5 font-mono text-[10px] uppercase tracking-[0.22em] text-subtle">Site structure</h3>
+            <h3 className="mb-5 label-caps text-[11px] text-subtle">Site structure</h3>
             <dl className="border-t border-foreground/15">
               {project.structure.map((item) => (
                 <div key={item.section} className="grid gap-2 border-b border-foreground/15 py-5 sm:grid-cols-[180px_1fr] sm:gap-6">
@@ -222,7 +226,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
             </dl>
           </Reveal>
           <Reveal delay={0.08}>
-            <h3 className="mb-5 font-mono text-[10px] uppercase tracking-[0.22em] text-subtle">Key journeys</h3>
+            <h3 className="mb-5 label-caps text-[11px] text-subtle">Key journeys</h3>
             <ul className="flex flex-col gap-8 border-t border-foreground/15 pt-6">
               {project.journeys.map((journey) => (
                 <li key={journey.audience}>
@@ -230,11 +234,11 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
                   <ol className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-2" aria-label={`${journey.audience} journey`}>
                     {journey.path.map((step, stepIndex) => (
                       <li key={step} className="flex items-center gap-2">
-                        <span className="border border-foreground/20 px-2.5 py-1.5 font-mono text-[10px] uppercase tracking-wider text-muted">
+                        <span className="rounded-full border border-foreground/15 bg-panel px-3 py-1.5 text-xs font-medium text-muted">
                           {step}
                         </span>
                         {stepIndex < journey.path.length - 1 ? (
-                          <span aria-hidden className="text-(--brand)">→</span>
+                          <span aria-hidden className="text-subtle">→</span>
                         ) : null}
                       </li>
                     ))}
@@ -247,7 +251,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
       </Section>
 
       {/* Gallery */}
-      <section aria-labelledby="gallery-title" className="w-full bg-ink py-20 md:py-28">
+      <section aria-labelledby="gallery-title" className="surface-dark w-full bg-background py-20 md:py-28">
         <div className="premium-grid w-full px-6 md:px-12">
           <SectionRail index="04" label="Gallery" sublabel="The live site" />
           <div className="col-span-12 mt-10 md:col-span-9 md:col-start-4 md:mt-0 lg:col-span-8 lg:col-start-5">
@@ -264,7 +268,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
       <Section index="05" label="Craft" sublabel="Design & build" title="Design and implementation">
         <div className="grid gap-12 md:grid-cols-2">
           <Reveal>
-            <h3 className="mb-4 font-mono text-[10px] uppercase tracking-[0.22em] text-subtle">Design</h3>
+            <h3 className="mb-4 label-caps text-[11px] text-subtle">Design</h3>
             <div className="flex flex-col gap-5 text-base leading-relaxed text-muted md:text-lg">
               {project.design.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
@@ -272,7 +276,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
             </div>
           </Reveal>
           <Reveal delay={0.08}>
-            <h3 className="mb-4 font-mono text-[10px] uppercase tracking-[0.22em] text-subtle">Implementation</h3>
+            <h3 className="mb-4 label-caps text-[11px] text-subtle">Implementation</h3>
             <div className="flex flex-col gap-5 text-base leading-relaxed text-muted md:text-lg">
               {project.implementation.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
@@ -280,7 +284,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
             </div>
             <ul className="mt-6 flex flex-wrap gap-2" aria-label="Platform and technologies">
               {project.technologies.map((tech) => (
-                <li key={tech} className="border border-(--brand)/50 px-3 py-2 font-mono text-[10px] uppercase tracking-widest text-foreground">
+                <li key={tech} className="rounded-full border border-foreground/20 px-3 py-1.5 text-xs font-medium text-foreground">
                   {tech}
                 </li>
               ))}
@@ -289,7 +293,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
         </div>
       </Section>
 
-      <Section index="06" label="Responsive" sublabel="Phone & tablet" title="Built for every screen" className="bg-panel">
+      <Section index="06" label="Responsive" sublabel="Phone & tablet" title="Built for every screen" className="border-y border-foreground/10 bg-panel">
         <div className="grid items-center gap-12 lg:grid-cols-[1fr_auto]">
           <Reveal>
             <p className="max-w-xl text-lg leading-relaxed text-muted md:text-xl">{project.responsive}</p>
@@ -311,7 +315,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
       <section className="w-full bg-background px-6 py-20 md:px-12 md:py-28">
         <Reveal>
           <div
-            className="flex flex-col items-start justify-between gap-10 rounded-[16px] p-8 md:flex-row md:items-end md:p-14"
+            className="flex flex-col items-start justify-between gap-10 rounded-[24px] p-8 md:flex-row md:items-end md:p-14"
             style={brandPanelStyle(project)}
           >
             <div>
@@ -319,14 +323,14 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
               <p className="mt-8 max-w-xl font-display text-3xl font-semibold leading-tight tracking-tight text-white md:text-5xl">
                 See it live.
               </p>
-              <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.2em] text-white/70">{project.displayUrl}</p>
+              <p className="mt-3 label-caps text-[11px] text-white/70">{project.displayUrl}</p>
             </div>
             <a
               href={project.url}
               target="_blank"
               rel="noopener noreferrer"
               data-cursor="link"
-              className="group inline-flex items-center gap-3 border border-white/30 bg-white/5 px-7 py-4 font-mono text-[11px] uppercase tracking-[0.2em] text-white transition-colors hover:border-white hover:bg-white hover:text-black"
+              className="label-caps group inline-flex items-center gap-3 rounded-full border border-white/30 bg-white/5 px-7 py-4 text-[11px] text-white transition-colors hover:border-white hover:bg-white hover:text-charcoal"
             >
               Visit Live Website
               <span className="sr-only"> (opens in a new tab)</span>
@@ -344,13 +348,13 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
           className="group flex flex-col gap-4 px-6 py-14 transition-colors duration-500 hover:bg-panel md:flex-row md:items-end md:justify-between md:px-12 md:py-20"
         >
           <span>
-            <span className="block font-mono text-[10px] uppercase tracking-[0.22em] text-subtle">Next project</span>
-            <span className="mt-3 block font-display text-5xl font-semibold tracking-tighter text-foreground transition-colors group-hover:text-accent md:text-7xl">
+            <span className="block label-caps text-[11px] text-subtle">Next project</span>
+            <span className="mt-3 block font-display text-5xl font-semibold tracking-tighter text-foreground transition-colors group-hover:text-muted md:text-7xl">
               {next.client}
             </span>
           </span>
           <span className="max-w-md text-base text-muted md:text-right">
-            {next.headline} <span aria-hidden className="text-accent">→</span>
+            {next.headline} <span aria-hidden className="text-foreground">→</span>
           </span>
         </Link>
       </nav>

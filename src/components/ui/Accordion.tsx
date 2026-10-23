@@ -41,7 +41,7 @@ export default function Accordion({ items }: AccordionProps) {
               >
                 <span
                   className={cn(
-                    "font-display text-xl font-medium tracking-tight transition-colors md:text-2xl",
+                    "font-display text-xl font-semibold tracking-tight transition-colors md:text-2xl",
                     isOpen ? "text-foreground" : "text-muted group-hover:text-foreground"
                   )}
                 >
@@ -51,7 +51,7 @@ export default function Accordion({ items }: AccordionProps) {
                   aria-hidden
                   className={cn(
                     "relative h-4 w-4 shrink-0 transition-colors",
-                    isOpen ? "text-accent" : "text-subtle group-hover:text-foreground"
+                    isOpen ? "text-foreground" : "text-subtle group-hover:text-foreground"
                   )}
                 >
                   <span className="absolute left-0 top-1/2 h-px w-4 -translate-y-1/2 bg-current" />

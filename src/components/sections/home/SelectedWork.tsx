@@ -6,7 +6,7 @@ import { projects } from "@/content/projects";
 
 export default function SelectedWork() {
   return (
-    <section id="work" className="relative w-full overflow-hidden bg-background py-24 md:py-36">
+    <section id="work" className="relative w-full overflow-hidden border-t border-foreground/10 bg-background py-24 md:py-36">
       <div className="premium-grid w-full px-6 md:px-12">
         <SectionRail index="02" label="Work" sublabel="Selected projects" footnote="Live websites" />
 

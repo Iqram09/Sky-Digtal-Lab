@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useReducedMotion } from "framer-motion";
+import Glow from "@/components/brand/Glow";
 import Reveal from "@/components/ui/Reveal";
 import SectionRail from "@/components/ui/SectionRail";
 import SectionTitle from "@/components/ui/SectionTitle";
@@ -52,9 +53,11 @@ export default function Process({ index = "07" }: ProcessProps) {
     <section
       id="process"
       ref={containerRef}
-      className="relative w-full overflow-hidden bg-background py-24 md:py-36"
+      className="surface-dark relative w-full overflow-hidden bg-background py-24 md:py-36"
     >
-      <div className="premium-grid w-full px-6 md:px-12">
+      <Glow tone="mint" className="-bottom-[22rem] -left-[20rem] w-[min(760px,130vw)]" />
+
+      <div className="premium-grid relative z-10 w-full px-6 md:px-12">
         <SectionRail index={index} label="Process" sublabel="How we work" footnote="Six stages" />
 
         <div className="col-span-12 mt-12 md:col-span-9 md:col-start-4 md:mt-0 lg:col-span-8 lg:col-start-5">
@@ -73,7 +76,7 @@ export default function Process({ index = "07" }: ProcessProps) {
             <span
               ref={lineRef}
               aria-hidden
-              className="absolute left-[3px] top-2 h-[calc(100%-1rem)] w-px origin-top bg-accent md:left-[7px]"
+              className="absolute left-[3px] top-2 h-[calc(100%-1rem)] w-px origin-top bg-mint md:left-[7px]"
             />
 
             {processSteps.map((step, stepIndex) => (
@@ -85,10 +88,10 @@ export default function Process({ index = "07" }: ProcessProps) {
               >
                 <span
                   aria-hidden
-                  className="absolute -left-10 top-2 h-[7px] w-[7px] rounded-full bg-foreground/30 transition-colors duration-300 group-hover:bg-accent md:-left-16 md:h-[15px] md:w-[15px] md:border-[5px] md:border-background"
+                  className="absolute -left-10 top-2 h-[7px] w-[7px] rounded-full bg-foreground/30 transition-colors delay-200 duration-700 group-hover:bg-mint group-data-[revealed]:bg-mint md:-left-16 md:h-[15px] md:w-[15px] md:border-[5px] md:border-background"
                 />
                 <div className="flex flex-col gap-3 md:flex-row md:items-baseline md:gap-8">
-                  <span className="font-mono text-xs text-accent md:w-16 md:shrink-0">{step.number}</span>
+                  <span className="label-caps text-[11px] text-subtle md:w-16 md:shrink-0">{step.number}</span>
                   <div>
                     <h3 className="font-display text-2xl font-semibold tracking-tight text-foreground md:text-4xl">
                       {step.title}
